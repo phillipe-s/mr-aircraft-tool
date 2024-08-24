@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Oculus.Interaction;
 using Oculus.Interaction.Surfaces;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ModelController : MonoBehaviour
 {
@@ -36,12 +35,14 @@ public class ModelController : MonoBehaviour
             GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
             rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
             rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
+            rayGrabInteraction.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
         }
     }
 
     private void ToggleRayGrabInteraction(Transform child, bool state)
     {
         GameObject rayGrabInteraction = child.gameObject.transform.Find("RayGrabInteraction(Clone)").gameObject;
+        rayGrabInteraction.GetComponent<InteractableColorVisual>().enabled = state;
         rayGrabInteraction.SetActive(state);
     }
 
