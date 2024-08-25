@@ -8,29 +8,22 @@ public class ModelController : MonoBehaviour
 {
     private GameObject model;
     private bool individualParts = false;
+    public bool IndividualParts { get { return individualParts; } }
     private Dictionary<Transform, (Vector3 position, Quaternion rotation)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion)>();
 
     private void Start()
     {
-        loadModel("C130");
+        LoadModel(Resources.Load<GameObject>("Models/C130"));
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void LoadModel(GameObject model)
     {
-        // if the start button is pressed with the hands
-        if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleIndividualParts();
-
-    }
-
-    private void loadModel(string modelName)
-    {
-        model = Instantiate(Resources.Load<GameObject>("Models/" + modelName), transform);
+        this.model = Instantiate(model, transform);
 
         GameObject rayGrabInteractionPrefab = Resources.Load<GameObject>("RayGrabInteraction");
         rayGrabInteractionPrefab.SetActive(false);
 
-        foreach (Transform child in model.transform)
+        foreach (Transform child in this.model.transform)
         {
             GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
             rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
@@ -67,7 +60,7 @@ public class ModelController : MonoBehaviour
         }
     }
 
-    private void ToggleIndividualParts()
+    public void ToggleIndividualParts()
     {
         if (!individualParts)
         {
