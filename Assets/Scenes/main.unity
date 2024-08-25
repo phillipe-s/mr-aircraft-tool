@@ -620,26 +620,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1399532625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &65753036 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4798347977068732696, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-  m_PrefabInstance: {fileID: 565778046}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &65753041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65753036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad268d58915ac984d9b87f9a847af9af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _individualPartsEnabledIcon: {fileID: 465052405}
-  _individualPartsDisabledIcon: {fileID: 923978093}
-  modelController: {fileID: 1785882071}
 --- !u!1 &68335638
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,11 +3216,6 @@ MonoBehaviour:
   installationRoutineCheckpoint:
     _installationRoutineId: 
     _installationVariants: []
---- !u!1 &465052405 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6993369706075667694, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-  m_PrefabInstance: {fileID: 565778046}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &486911564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3574,10 +3549,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4798347976600300598, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 3462359309017400733, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
+      propertyPath: modelController
+      value: 
+      objectReference: {fileID: 1785882071}
     - target: {fileID: 4798347977068732692, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
       propertyPath: _leftHandedGameObjects.Array.data[0]
       value: 
@@ -3604,7 +3579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4798347977068732695, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.2582
       objectReference: {fileID: 0}
     - target: {fileID: 4798347977068732695, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3638,129 +3613,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PalmMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 6993369704050868951, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704050868951, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704363824580, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704457607689, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704457607689, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704457607689, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704517861208, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704632496522, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704651459711, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704750593986, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369704929999946, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705060154953, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705060154953, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705060154955, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6993369705243355000, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1785882071}
-    - target: {fileID: 6993369705243355000, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ToggleIndividualParts
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705243355000, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: ModelController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705243355002, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705346630620, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705346630620, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705346630620, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705520852869, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705610952803, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705610952803, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705709058285, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_text
-      value: Individual Parts
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705827579681, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 65753041}
-    - target: {fileID: 6993369705827579681, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ToggleIndividualParts
-      objectReference: {fileID: 0}
-    - target: {fileID: 6993369705827579681, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4798347976600300598, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-    - {fileID: 4798347976600300596, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-    - {fileID: 4798347976600300597, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 4798347976600300600, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4798347977068732696, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 65753041}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
 --- !u!1 &572537853
 GameObject:
@@ -5010,11 +4870,6 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5233142801893149758, guid: f54012181eacade4ea242c65f804720f, type: 3}
   m_PrefabInstance: {fileID: 1475546910}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &923978093 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6993369704546012818, guid: e94c141e407a58d4abaaba606ed45c52, type: 3}
-  m_PrefabInstance: {fileID: 565778046}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &930349199
 GameObject:
@@ -10246,7 +10101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ee9e26359cbca49bdd888bd84e7fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  individualParts: 0
 --- !u!1 &1788107584
 GameObject:
   m_ObjectHideFlags: 0

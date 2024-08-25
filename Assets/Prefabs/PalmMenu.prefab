@@ -162,16 +162,7 @@ MonoBehaviour:
   _menuPanel: {fileID: 6993369706028138519}
   _buttons:
   - {fileID: 6993369705243355001}
-  - {fileID: 6993369705827579682}
-  - {fileID: 6993369705060154954}
-  - {fileID: 6993369704750593985}
-  - {fileID: 6993369704632496521}
-  _paginationDots:
-  - {fileID: 6993369705520852868}
-  - {fileID: 6993369704517861159}
-  - {fileID: 6993369704651459710}
-  - {fileID: 6993369704363824579}
-  - {fileID: 6993369704929999945}
+  _paginationDots: []
   _selectionIndicatorDot: {fileID: 6993369705846371032}
   _paginationButtonScaleCurve:
     serializedVersion: 2
@@ -213,7 +204,7 @@ GameObject:
   - component: {fileID: 4798347977068732693}
   - component: {fileID: 4798347977068732694}
   - component: {fileID: 4798347977068732692}
-  - component: {fileID: 3574046576173241224}
+  - component: {fileID: 3462359309017400733}
   m_Layer: 0
   m_Name: PalmMenu
   m_TagString: Untagged
@@ -230,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 4798347977068732696}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -280,7 +271,7 @@ MonoBehaviour:
   - {fileID: 0}
   _rightHandedGameObjects:
   - {fileID: 0}
---- !u!114 &3574046576173241224
+--- !u!114 &3462359309017400733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -793,7 +784,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6993369704517861159
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4025,7 +4016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 8, y: 0.6}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6993369705827579695
@@ -4122,7 +4113,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3574046576173241224}
+      - m_Target: {fileID: 3462359309017400733}
         m_TargetAssemblyTypeName: Oculus.Interaction.Samples.PalmMenu.PalmMenu, Assembly-CSharp
         m_MethodName: ToggleIndividualParts
         m_Mode: 1
@@ -4371,8 +4362,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6993369705243355001}
   - {fileID: 6993369705827579682}
+  - {fileID: 6993369705243355001}
   - {fileID: 6993369705060154954}
   - {fileID: 6993369704750593985}
   - {fileID: 6993369704632496521}
