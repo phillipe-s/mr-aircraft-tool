@@ -17,6 +17,19 @@ public class ModelsController : MonoBehaviour
         models[currentModelIndex].SetActive(true);
     }
 
+
+    [ContextMenu("Next Model")]
+    public void NextModel()
+    {
+        SwitchToModel((currentModelIndex + 1) % models.Count);
+    }
+
+    [ContextMenu("Previous Model")]
+    public void PreviousModel()
+    {
+        SwitchToModel((currentModelIndex - 1 + models.Count) % models.Count);
+    }
+
     public void SwitchToModel(int index)
     {
         if (index < 0 || index >= models.Count)
