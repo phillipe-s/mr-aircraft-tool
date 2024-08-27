@@ -1,32 +1,30 @@
 using UnityEngine;
 
-namespace Oculus.Interaction.Samples.PalmMenu
+public class PalmMenu : MonoBehaviour
 {
-    public class PalmMenu : MonoBehaviour
-    {
-        [SerializeField]
-        private GameObject _individualPartsEnabledIcon;
+    // [SerializeField]
+    // private GameObject _individualPartsEnabledIcon;
 
-        [SerializeField]
-        private GameObject _individualPartsDisabledIcon;
+    // [SerializeField]
+    // private GameObject _individualPartsDisabledIcon;
 
-        public ModelController modelController;
+    // public ModelController modelController;
 
-        private void Start()
-        {
-            _individualPartsEnabledIcon.SetActive(modelController.IndividualParts);
-        }
+    // private void Start()
+    // {
+    //     _individualPartsEnabledIcon.SetActive(modelController.IndividualParts);
+    // }
 
-        private void Update()
-        {
-        }
+    // private void Update()
+    // {
+    // }
 
 
-        public void ToggleIndividualParts()
-        {
-            modelController.ToggleIndividualParts();
-            _individualPartsEnabledIcon.SetActive(modelController.IndividualParts);
-            _individualPartsDisabledIcon.SetActive(!modelController.IndividualParts);
-        }
-    }
+    // public void ToggleIndividualParts()
+    // {
+    //     modelController.ToggleIndividualParts();
+    //     _individualPartsEnabledIcon.SetActive(modelController.IndividualParts);
+    //     _individualPartsDisabledIcon.SetActive(!modelController.IndividualParts);
+    // }
 }
+
