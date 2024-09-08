@@ -17,6 +17,11 @@ public class ModelsController : MonoBehaviour
         models[currentModelIndex].SetActive(true);
     }
 
+    void Update()
+    {
+        if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleIndividualParts();
+    }
+
 
     [ContextMenu("Next Model")]
     public void NextModel()
