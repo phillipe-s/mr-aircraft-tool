@@ -11,9 +11,18 @@ public class ModelController : MonoBehaviour
     public bool IndividualParts { get { return individualParts; } }
     private Dictionary<Transform, (Vector3 position, Quaternion rotation)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion)>();
 
+
     private void Start()
     {
         LoadModel(Resources.Load<GameObject>("Models/C130"));
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey("p"))
+        {
+            SwitchModel(Resources.Load<GameObject>("Models/UH 60 blackhawk"));
+        }
     }
 
     private void LoadModel(GameObject model)
@@ -31,6 +40,14 @@ public class ModelController : MonoBehaviour
             rayGrabInteraction.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
         }
     }
+
+
+    public void SwitchModel(GameObject model)
+    {
+        Destroy(this.model);
+        LoadModel(model);
+    }
+
 
     private void ToggleRayGrabInteraction(Transform child, bool state)
     {

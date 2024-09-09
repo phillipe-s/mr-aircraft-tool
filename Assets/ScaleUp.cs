@@ -9,6 +9,9 @@ public class ScaleUp : MonoBehaviour
     public float minScale = 0.01f; // Minimum scale to prevent flipping
     public float maxScale = 0.5f; // Maximum scale
 
+    //reference model controller script and declare type first
+    public ModelController modelController;
+
     private Vector3 scaleStep; // Step to change scale each frame
 
     // Start is called before the first frame update
@@ -23,6 +26,7 @@ public class ScaleUp : MonoBehaviour
     {
         // Determine the new scale based on user input
         Vector3 newScale = transform.localScale;
+
 
         // When you press the button "u" it should start scaling up
         if (Input.GetKey("u"))

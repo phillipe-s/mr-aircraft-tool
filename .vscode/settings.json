@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "mr-aircraft-tool.sln"
+    "dotnet.defaultSolution": "mr-aircraft-tool.sln",
+    "dotnet.preferCSharpExtension": true
 }
