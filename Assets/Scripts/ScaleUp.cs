@@ -10,7 +10,7 @@ public class ScaleUp : MonoBehaviour
     public float maxScale = 0.5f; // Maximum scale
 
     //reference model controller script and declare type first
-    public ModelController modelController;
+    public ModelsController modelController;
 
     private Vector3 scaleStep; // Step to change scale each frame
 
