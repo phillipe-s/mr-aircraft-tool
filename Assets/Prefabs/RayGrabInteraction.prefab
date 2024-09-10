@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4418271620876503683}
   - component: {fileID: 5916487844821203770}
   - component: {fileID: 7788811186459580280}
+  - component: {fileID: 8649379137164834870}
   m_Layer: 0
   m_Name: RayGrabInteraction
   m_TagString: Untagged
@@ -49,11 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transferOnSecondSelection: 1
+  _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
-  _oneGrabTransformer: {fileID: 0}
-  _twoGrabTransformer: {fileID: 0}
+  _oneGrabTransformer: {fileID: 8649379137164834870}
+  _twoGrabTransformer: {fileID: 8649379137164834870}
   _targetTransform: {fileID: 0}
   _maxGrabPoints: -1
   _rigidbody: {fileID: 0}
@@ -121,7 +122,7 @@ MonoBehaviour:
   _editor: {fileID: 7788811186459580280}
   _colorShaderPropertyName: _Color
   _normalColorState:
-    Color: {r: 1, g: 1, b: 1, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 0}
     ColorCurve:
       serializedVersion: 2
       m_Curve:
@@ -146,9 +147,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ColorTime: 0.1
+    ColorTime: 0.2
   _hoverColorState:
-    Color: {r: 0.5235849, g: 1, b: 0.5547547, a: 1}
+    Color: {r: 0.5235849, g: 1, b: 0.5547547, a: 0}
     ColorCurve:
       serializedVersion: 2
       m_Curve:
@@ -173,9 +174,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ColorTime: 0.1
+    ColorTime: 0.2
   _selectColorState:
-    Color: {r: 0.3160377, g: 1, b: 0.3612583, a: 1}
+    Color: {r: 0.3160377, g: 1, b: 0.3612583, a: 0}
     ColorCurve:
       serializedVersion: 2
       m_Curve:
@@ -200,9 +201,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ColorTime: 0.1
+    ColorTime: 0.2
   _disabledColorState:
-    Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 0}
     ColorCurve:
       serializedVersion: 2
       m_Curve:
@@ -227,7 +228,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ColorTime: 0.1
+    ColorTime: 0.2
 --- !u!114 &7788811186459580280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,9 +241,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
+  _renderers: []
   _vectorProperties: []
   _colorProperties: []
   _floatProperties: []
   _updateEveryFrame: 1
+--- !u!114 &8649379137164834870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4368846234269360198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb7085c111fcb44493d57d4e336d3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _positionConstraints:
+    ConstraintsAreRelative: 0
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _rotationConstraints:
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _scaleConstraints:
+    ConstraintsAreRelative: 1
+    XAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 0.05
+        Max: 5
+    YAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 0.05
+        Max: 5
+    ZAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 0.05
+        Max: 5
