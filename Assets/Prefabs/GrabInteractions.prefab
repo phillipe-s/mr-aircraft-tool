@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 8384269256302881707}
   - component: {fileID: 2305833205715960071}
   - component: {fileID: 6278092146975692667}
-  - component: {fileID: 7990941336649971350}
+  - component: {fileID: -5407690826318970436}
   m_Layer: 0
   m_Name: GrabInteractions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1941053820173315105
 Transform:
   m_ObjectHideFlags: 0
@@ -50,8 +50,8 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
-  _oneGrabTransformer: {fileID: 7990941336649971350}
-  _twoGrabTransformer: {fileID: 7990941336649971350}
+  _oneGrabTransformer: {fileID: -5407690826318970436}
+  _twoGrabTransformer: {fileID: -5407690826318970436}
   _targetTransform: {fileID: 0}
   _maxGrabPoints: -1
   _rigidbody: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   _releaseDistance: 0
   _resetGrabOnGrabsUpdated: 1
   _physicsGrabbable: {fileID: 0}
---- !u!114 &7990941336649971350
+--- !u!114 &-5407690826318970436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,14 +172,14 @@ MonoBehaviour:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 3
+        Max: 5
     YAxis:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 3
+        Max: 5
     ZAxis:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 3
+        Max: 5
