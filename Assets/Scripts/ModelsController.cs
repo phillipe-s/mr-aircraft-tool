@@ -22,30 +22,19 @@ public class ModelsController : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleIndividualParts();
     }
 
-
-    [ContextMenu("Next Model")]
-    public void NextModel()
+    public void SwitchToModel(GameObject model)
     {
-        SwitchToModel((currentModelIndex + 1) % models.Count);
-    }
-
-    [ContextMenu("Previous Model")]
-    public void PreviousModel()
-    {
-        SwitchToModel((currentModelIndex - 1 + models.Count) % models.Count);
-    }
-
-    public void SwitchToModel(int index)
-    {
-        if (index < 0 || index >= models.Count)
-        {
-            Debug.LogError("Index out of bounds");
-            return;
-        }
-
         models[currentModelIndex].SetActive(false);
-        models[index].SetActive(true);
-        currentModelIndex = index;
+        currentModelIndex = models.IndexOf(model);
+        models[currentModelIndex].SetActive(true);
+    }
+
+    [ContextMenu("Switch Model")]
+    private void SwitchToModel()
+    {
+        models[currentModelIndex].SetActive(false);
+        currentModelIndex = currentModelIndex + 1;
+        models[currentModelIndex].SetActive(true);
     }
 
     [ContextMenu("Toggle Individual Parts For Current Model")]

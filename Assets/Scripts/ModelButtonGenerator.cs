@@ -3,11 +3,15 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro; // Ensure this is included if using TextMeshPro
 
+
+// DEPRECATED: This script is no longer used in the final project
 public class AircraftButtonGenerator : MonoBehaviour
 {
     public GameObject buttonPrefab; // Drag the 'Model Name Button' Prefab here
     public Transform contentParent; // Drag the 'Content' GameObject here
     public ModelSwitcher modelSwitcher; // Drag the ModelSwitcher object here
+    public ModelsController modelsController;
+    public List<GameObject> modelList;
 
     // Path to the folder containing your models
     public string modelsFolderPath = "Assets/Prefabs/Models";
@@ -64,7 +68,7 @@ public class AircraftButtonGenerator : MonoBehaviour
 
         // After all buttons are created, destroy the original "Model Name Button" if it exists
         foreach (Transform child in contentParent)
-        {   
+        {
             if (child.name == "Model Name Button")
             {
                 Destroy(child.gameObject);
