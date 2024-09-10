@@ -3710,6 +3710,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1907574152098359130, guid: 6da0eeaf48219bb4285fe4656082ba0e, type: 3}
+      propertyPath: m_Group
+      value: 
+      objectReference: {fileID: 5345406257936252810}
+    - target: {fileID: 1907574152098359130, guid: 6da0eeaf48219bb4285fe4656082ba0e, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
