@@ -7,7 +7,7 @@ public class RefinedPartController : MonoBehaviour
     private List<Model> refinedParts = new List<Model>();
     public List<Model> RefinedParts { get => refinedParts; }
 
-    void Start()
+    void Awake()
     {
         foreach (Transform child in transform)
         {

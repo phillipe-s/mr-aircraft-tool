@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
-public class ModelsController : MonoBehaviour
+public class ModelController : MonoBehaviour
 {
     public List<Model> models;
     private Model currentModel;
