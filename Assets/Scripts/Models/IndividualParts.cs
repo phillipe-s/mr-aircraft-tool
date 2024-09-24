@@ -8,6 +8,7 @@ using UnityEngine;
 public class IndividualParts : MonoBehaviour
 {
     private bool enableIndividualParts = false;
+    public bool IndividualPartsEnabled { get => enableIndividualParts; }
     [SerializeField] private GameObject rayGrabInteractionPrefab;
     private Dictionary<Transform, GameObject> rayGrabInteractions = new Dictionary<Transform, GameObject>();
     private Dictionary<Transform, (Vector3 position, Quaternion rotation, Vector3 scale)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion, Vector3)>();
