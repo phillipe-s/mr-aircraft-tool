@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModelsController : MonoBehaviour
 {
@@ -11,26 +12,31 @@ public class ModelsController : MonoBehaviour
     public Model CurrentModel { get => currentModel; }
     [SerializeField] private GameObject centerEyeAnchor;
     [SerializeField] private GameObject modelMenu;
-    [SerializeField] private GameObject modelMenuEnabledIcon;
-    [SerializeField] private GameObject modelMenuDisabledIcon;
-    [SerializeField] private GameObject individualPartsEnabledIcon;
-    [SerializeField] private GameObject individualPartsDisabledIcon;
+    [SerializeField] private GameObject modelMenuToggle;
+    [SerializeField] private GameObject individualPartsToggle;
+    [SerializeField] private GameObject sliderPrefab;
+    private GameObject explosionSlider;
+    [SerializeField] private GameObject explosionSliderToggle;
+    private float menuDistanceInFrontOfCamera = 0.3f;
 
     void Start()
     {
-        foreach (Transform child in transform)
+        foreach (Model model in models)
         {
-            child.gameObject.SetActive(false);
+            model.gameObject.SetActive(false);
         }
 
         currentModel = models[0];
         currentModel.gameObject.SetActive(true);
-
         modelMenu.SetActive(false);
-        modelMenuEnabledIcon.SetActive(modelMenu.activeSelf);
-        modelMenuDisabledIcon.SetActive(!modelMenu.activeSelf);
-        ToggleIndividualPartsIcons();
 
+        explosionSlider = Instantiate(sliderPrefab);
+        explosionSlider.SetActive(false);
+        explosionSlider.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnExplosionSliderChange);
+
+        ToggleIcons(modelMenuToggle, false);
+        ToggleIcons(individualPartsToggle, false);
+        ToggleIcons(explosionSliderToggle, false);
     }
 
     public void SwitchToModel(Model model)
@@ -38,34 +44,52 @@ public class ModelsController : MonoBehaviour
         currentModel.gameObject.SetActive(false);
         currentModel = model;
         currentModel.gameObject.SetActive(true);
-        ToggleIndividualPartsIcons();
+        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
     }
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
     public void ToggleIndividualPartsCurrentModel()
     {
         currentModel.ModelParts.ToggleIndividualParts();
-        ToggleIndividualPartsIcons();
+        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
     }
-
 
     public void ToggleModelMenu()
     {
-        // Set the position of the modelMenu in front of the user's camera
-        float distanceInFront = 0.3f; // Distance in front of the user
-        Vector3 cameraForward = centerEyeAnchor.transform.forward;
-        Vector3 cameraPosition = centerEyeAnchor.transform.position;
-        modelMenu.transform.position = cameraPosition + cameraForward * distanceInFront;
-
+        modelMenu.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
         modelMenu.SetActive(!modelMenu.activeSelf);
-        modelMenuEnabledIcon.SetActive(modelMenu.activeSelf);
-        modelMenuDisabledIcon.SetActive(!modelMenu.activeSelf);
+        ToggleIcons(modelMenuToggle, modelMenu.activeSelf);
     }
 
-    private void ToggleIndividualPartsIcons()
+    public void ToggleExplosionSlider()
     {
-        individualPartsEnabledIcon.SetActive(currentModel.ModelParts.IndividualPartsEnabled);
-        individualPartsDisabledIcon.SetActive(!currentModel.ModelParts.IndividualPartsEnabled);
+        explosionSlider.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+        explosionSlider.SetActive(!explosionSlider.activeSelf);
+    }
+
+    [ContextMenu("Reset Current Model")]
+    public void ResetModel()
+    {
+        currentModel.ModelParts.RestorePartTransforms();
+    }
+
+    public void OnExplosionSliderChange(float value)
+    {
+        currentModel.ModelParts.Explode(value);
+    }
+
+    private void ToggleIcons(GameObject toggle, bool active)
+    {
+        toggle.transform.Find("IconOn").gameObject.SetActive(active);
+        toggle.transform.Find("IconOff").gameObject.SetActive(!active);
+    }
+
+    private Vector3 GetPositionInFrontOfCamera(float distanceInFront)
+    {
+        // Set the position of the modelMenu in front of the user's camera
+        Vector3 cameraForward = centerEyeAnchor.transform.forward;
+        Vector3 cameraPosition = centerEyeAnchor.transform.position;
+        return cameraPosition + cameraForward * distanceInFront;
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
