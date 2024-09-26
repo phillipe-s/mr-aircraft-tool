@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Oculus.Interaction;
@@ -12,6 +13,7 @@ public class IndividualParts : MonoBehaviour
     [SerializeField] private GameObject rayGrabInteractionPrefab;
     private Dictionary<Transform, GameObject> rayGrabInteractions = new Dictionary<Transform, GameObject>();
     private Dictionary<Transform, (Vector3 position, Quaternion rotation, Vector3 scale)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion, Vector3)>();
+    private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
 
     void Start()
     {
@@ -32,6 +34,32 @@ public class IndividualParts : MonoBehaviour
 
         enableIndividualParts = !enableIndividualParts;
         Debug.Log($"Individual parts toggled to {enableIndividualParts}");
+    }
+
+    public void RestorePartTransforms()
+    {
+        foreach (Transform child in transform)
+        {
+            (Vector3 position, Quaternion rotation, Vector3 scale) = savedPartTransforms[child];
+            child.position = position;
+            child.rotation = rotation;
+            child.localScale = scale;
+            ToggleRayGrabInteraction(child, false);
+        }
+    }
+
+    public void Explode(float value)
+    {
+        foreach (var part in GetComponentsInChildren<MeshRenderer>())
+        {
+            if (!originalPositions.ContainsKey(part.transform))
+            {
+                originalPositions[part.transform] = part.transform.position;
+            }
+
+            Vector3 explodedPosition = part.bounds.center;
+            part.transform.position = Vector3.Lerp(originalPositions[part.transform], explodedPosition, value);
+        }
     }
 
     private void AttachRayGrabInteractionToParts()
@@ -63,18 +91,6 @@ public class IndividualParts : MonoBehaviour
         {
             savedPartTransforms.Add(child, (child.position, child.rotation, child.localScale));
             ToggleRayGrabInteraction(child, true);
-        }
-    }
-
-    private void RestorePartTransforms()
-    {
-        foreach (Transform child in transform)
-        {
-            (Vector3 position, Quaternion rotation, Vector3 scale) = savedPartTransforms[child];
-            child.position = position;
-            child.rotation = rotation;
-            child.localScale = scale;
-            ToggleRayGrabInteraction(child, false);
         }
     }
 }
