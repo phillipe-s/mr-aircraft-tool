@@ -1,27 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModelController : MonoBehaviour
 {
     public List<Model> models;
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
+    [SerializeField] private GameObject centerEyeAnchor;
+    [SerializeField] private GameObject modelMenu;
+    [SerializeField] private GameObject modelMenuToggle;
+    [SerializeField] private GameObject individualPartsToggle;
+    [SerializeField] private GameObject sliderPrefab;
+    private GameObject explosionSlider;
+    [SerializeField] private GameObject explosionSliderToggle;
+    private float menuDistanceInFrontOfCamera = 0.3f;
 
     void Awake()
     {
-        foreach (Transform child in transform)
+        foreach (Model model in models)
         {
-            child.gameObject.SetActive(false);
+            model.gameObject.SetActive(false);
         }
         currentModel = models[0];
         currentModel.gameObject.SetActive(true);
-    }
+        modelMenu.SetActive(false);
 
-    void Update()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleIndividualParts();
+        explosionSlider = Instantiate(sliderPrefab);
+        explosionSlider.SetActive(false);
+        explosionSlider.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnExplosionSliderChange);
+
+        ToggleIcons(modelMenuToggle, false);
+        ToggleIcons(individualPartsToggle, false);
+        ToggleIcons(explosionSliderToggle, false);
     }
 
     public void SwitchToModel(Model model)
@@ -29,12 +43,52 @@ public class ModelController : MonoBehaviour
         currentModel.gameObject.SetActive(false);
         currentModel = model;
         currentModel.gameObject.SetActive(true);
+        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
     }
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
-    public void ToggleIndividualParts()
+    public void ToggleIndividualPartsCurrentModel()
     {
-        currentModel.ToggleIndividualParts();
+        currentModel.ModelParts.ToggleIndividualParts();
+        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+    }
+
+    public void ToggleModelMenu()
+    {
+        modelMenu.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+        modelMenu.SetActive(!modelMenu.activeSelf);
+        ToggleIcons(modelMenuToggle, modelMenu.activeSelf);
+    }
+
+    public void ToggleExplosionSlider()
+    {
+        explosionSlider.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+        explosionSlider.SetActive(!explosionSlider.activeSelf);
+    }
+
+    [ContextMenu("Reset Current Model")]
+    public void ResetModel()
+    {
+        currentModel.ModelParts.RestorePartTransforms();
+    }
+
+    public void OnExplosionSliderChange(float value)
+    {
+        currentModel.ModelParts.Explode(value);
+    }
+
+    private void ToggleIcons(GameObject toggle, bool active)
+    {
+        toggle.transform.Find("IconOn").gameObject.SetActive(active);
+        toggle.transform.Find("IconOff").gameObject.SetActive(!active);
+    }
+
+    private Vector3 GetPositionInFrontOfCamera(float distanceInFront)
+    {
+        // Set the position of the modelMenu in front of the user's camera
+        Vector3 cameraForward = centerEyeAnchor.transform.forward;
+        Vector3 cameraPosition = centerEyeAnchor.transform.position;
+        return cameraPosition + cameraForward * distanceInFront;
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
@@ -46,5 +100,4 @@ public class ModelController : MonoBehaviour
         currentModel = models[1];
         currentModel.gameObject.SetActive(true);
     }
-
 }
