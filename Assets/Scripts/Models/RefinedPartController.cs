@@ -11,11 +11,14 @@ public class RefinedPartController : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.gameObject.SetActive(false);
             refinedParts.Add(child.GetComponent<Model>());
+        }
 
+        foreach (Model refinedPart in refinedParts)
+        {
             // Set the parent of the refined part to null so it does not follow the parent's transform
-            child.SetParent(null);
+            refinedPart.transform.SetParent(null);
+            refinedPart.gameObject.SetActive(false);
         }
     }
 }
