@@ -5,17 +5,17 @@ using UnityEngine;
 public class AddButtons : MonoBehaviour
 {
     public ModelController modelController;
-    private Model currentModel;
-    private List<Model> refinedParts;
-    private GameObject Content;
+    public GameObject buttonPrefab;
 
     void Start()
     {
-        currentModel = modelController.CurrentModel;
-        refinedParts = currentModel.RefinedParts;
+        if (modelController.CurrentModel.RefinedParts == null) return;
 
-        Content = GameObject.Find("Content");
-        Debug.Log($"Content: {Content}");
+        foreach (Model model in modelController.CurrentModel.RefinedParts)
+        {
+            GameObject button = Instantiate(buttonPrefab, GameObject.Find("Content").transform);
+            button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = model.modelName;
+        }
     }
 
     // Update is called once per frame

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RefinedPartController : MonoBehaviour
 {
-    private List<Model> refinedParts = new List<Model>();
+    private List<Model> refinedParts;
     public List<Model> RefinedParts { get => refinedParts; }
 
-    void Awake()
+    void Start()
     {
         foreach (Transform child in transform)
         {

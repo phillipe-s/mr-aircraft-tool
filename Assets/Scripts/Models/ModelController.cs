@@ -9,13 +9,12 @@ public class ModelController : MonoBehaviour
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
 
-    void Start()
+    void Awake()
     {
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
-
         currentModel = models[0];
         currentModel.gameObject.SetActive(true);
     }

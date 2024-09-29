@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
+    public string modelName;
     [SerializeField] private IndividualParts? modelParts;
-
-    private List<Model>? refinedParts;
+    private List<Model>? refinedParts = new List<Model>();
     public List<Model>? RefinedParts { get => refinedParts; }
 
-    void Start()
+    void Awake()
     {
         RefinedPartController? refinedPartController = GetComponentInChildren<RefinedPartController>();
         if (refinedPartController != null) refinedParts = refinedPartController.RefinedParts;
