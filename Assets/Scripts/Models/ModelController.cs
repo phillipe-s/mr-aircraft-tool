@@ -11,12 +11,16 @@ public class ModelController : MonoBehaviour
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
     [SerializeField] private GameObject centerEyeAnchor;
+    [SerializeField] private GameObject scrollMenuPrefab;
+    [SerializeField] private GameObject scrollMenuButtonPrefab;
     [SerializeField] private GameObject modelMenu;
     [SerializeField] private GameObject modelMenuToggle;
     [SerializeField] private GameObject individualPartsToggle;
     [SerializeField] private GameObject sliderPrefab;
     private GameObject explosionSlider;
     [SerializeField] private GameObject explosionSliderToggle;
+    private GameObject refinedPartsMenu;
+    private List<Toggle> refinedPartToggles = new List<Toggle>();
     private float menuDistanceInFrontOfCamera = 0.3f;
 
     void Awake()
@@ -60,6 +64,41 @@ public class ModelController : MonoBehaviour
         ToggleIcons(modelMenuToggle, modelMenu.activeSelf);
     }
 
+    [ContextMenu("Toggle Refined Parts Menu For Current Model")]
+    public void ToggleRefinedPartsMenu()
+    {
+        if (currentModel.RefinedParts == null) return;
+
+        if (refinedPartsMenu == null)
+        {
+            refinedPartsMenu = Instantiate(scrollMenuPrefab);
+            refinedPartsMenu.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+            refinedPartsMenu.SetActive(false);
+
+            // Populate the refined parts menu with buttons
+            foreach (Model refinedPart in currentModel.RefinedParts)
+            {
+                Transform content = refinedPartsMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
+                GameObject toggle = Instantiate(scrollMenuButtonPrefab, content);
+                toggle.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = refinedPart.modelName;
+                toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => { ToggleRefinedPart(refinedPart, value); });
+                refinedPartToggles.Add(toggle.GetComponent<Toggle>());
+            }
+            refinedPartsMenu.SetActive(true);
+        }
+        else
+        {
+            foreach (Toggle toggle in refinedPartToggles)
+            {
+                toggle.onValueChanged.RemoveAllListeners();
+            }
+            refinedPartToggles.Clear();
+
+            Destroy(refinedPartsMenu);
+            refinedPartsMenu = null;
+        }
+    }
+
     public void ToggleExplosionSlider()
     {
         explosionSlider.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
@@ -89,6 +128,12 @@ public class ModelController : MonoBehaviour
         Vector3 cameraForward = centerEyeAnchor.transform.forward;
         Vector3 cameraPosition = centerEyeAnchor.transform.position;
         return cameraPosition + cameraForward * distanceInFront;
+    }
+
+    private void ToggleRefinedPart(Model refinedPart, bool active)
+    {
+        refinedPart.gameObject.SetActive(active);
+        refinedPart.transform.position = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
     }
 
     // ======================== TESTING FUNCTIONS ======================== //

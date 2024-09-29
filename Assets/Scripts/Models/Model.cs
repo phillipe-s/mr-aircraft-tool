@@ -15,6 +15,8 @@ public class Model : MonoBehaviour
 
     void Awake()
     {
+        if (string.IsNullOrEmpty(modelName)) modelName = name;
+
         RefinedPartController? refinedPartController = GetComponentInChildren<RefinedPartController>();
         if (refinedPartController != null) refinedParts = refinedPartController.RefinedParts;
         else Debug.LogWarning($"{name} does not have refined parts");

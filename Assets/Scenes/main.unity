@@ -10547,6 +10547,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 844191956}
     - target: {fileID: 1907574152098359130, guid: 6da0eeaf48219bb4285fe4656082ba0e, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907574152098359130, guid: 6da0eeaf48219bb4285fe4656082ba0e, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -18095,6 +18099,8 @@ MonoBehaviour:
   - {fileID: 1116088199}
   - {fileID: 6032996404222931085}
   centerEyeAnchor: {fileID: 10793885}
+  scrollMenuPrefab: {fileID: 3698737706883362403, guid: 94bb0c55b8186af47ab4b298c454584a, type: 3}
+  scrollMenuButtonPrefab: {fileID: 3453116323550241787, guid: 6da0eeaf48219bb4285fe4656082ba0e, type: 3}
   modelMenu: {fileID: 144618189}
   modelMenuToggle: {fileID: 1737365444}
   individualPartsToggle: {fileID: 1064454253}
@@ -18697,9 +18703,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 690640243}
   - {fileID: 144618194}
   - {fileID: 1430423054}
-  - {fileID: 690640243}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834931468
@@ -20342,6 +20348,14 @@ PrefabInstance:
     - target: {fileID: 238048256971909361, guid: 258cc2783aa02a848aa69fe15ac73f5d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605312315118356597, guid: 258cc2783aa02a848aa69fe15ac73f5d, type: 3}
+      propertyPath: modelName
+      value: C130
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805466759576437168, guid: 258cc2783aa02a848aa69fe15ac73f5d, type: 3}
+      propertyPath: modelName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6320456906932295550, guid: 258cc2783aa02a848aa69fe15ac73f5d, type: 3}
       propertyPath: m_LocalScale.x
@@ -22731,6 +22745,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3869590404197820377, guid: 9579fca4d75794b4182fcf4f8d61f896, type: 3}
+      propertyPath: modelName
+      value: UH 60 Blackhawk
+      objectReference: {fileID: 0}
     - target: {fileID: 3880463390160148547, guid: 9579fca4d75794b4182fcf4f8d61f896, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -23748,5 +23766,5 @@ SceneRoots:
   - {fileID: 341182180}
   - {fileID: 1830271189}
   - {fileID: 1785882070}
-  - {fileID: 7459752324969563594}
   - {fileID: 1973663970}
+  - {fileID: 7459752324969563594}
