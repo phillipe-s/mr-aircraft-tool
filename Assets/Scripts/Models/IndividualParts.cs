@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction.Surfaces;
+using Oculus.Interaction.Throw;
 using UnityEngine;
 
 public class IndividualParts : MonoBehaviour
@@ -14,11 +15,12 @@ public class IndividualParts : MonoBehaviour
     [SerializeField] private GameObject rayGrabInteractionPrefab;
     private Dictionary<Transform, GameObject> rayGrabInteractions = new Dictionary<Transform, GameObject>();
     private Dictionary<Transform, (Vector3 position, Quaternion rotation, Vector3 scale)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion, Vector3)>();
-    private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
+    private bool isExploded = true;
 
     void Start()
     {
         AttachRayGrabInteractionToParts();
+        SavePartTransforms();
     }
 
     [ContextMenu("Toggle Individual Parts")]
@@ -26,12 +28,13 @@ public class IndividualParts : MonoBehaviour
     {
         if (!enableIndividualParts)
         {
-            SavePartTransforms();
+            foreach (Transform child in transform) ToggleRayGrabInteraction(child, true);
             grabInteractions.SetActive(false);
         }
         else
         {
-            RestorePartTransforms();
+            if (!isExploded) RestorePartTransforms();
+            foreach (Transform child in transform) ToggleRayGrabInteraction(child, false);
             grabInteractions.SetActive(true);
         }
 
@@ -41,27 +44,36 @@ public class IndividualParts : MonoBehaviour
 
     public void RestorePartTransforms()
     {
+        // Save the current position of the parent object
+        Vector3 positionBeforeRestore = transform.parent.position;
+
         foreach (Transform child in transform)
         {
-            (Vector3 position, Quaternion rotation, Vector3 scale) = savedPartTransforms[child];
-            child.position = position;
-            child.rotation = rotation;
-            child.localScale = scale;
-            ToggleRayGrabInteraction(child, false);
+            (Vector3 localPosition, Quaternion localRotation, Vector3 localScale) = savedPartTransforms[child];
+            child.localPosition = localPosition;
+            child.localRotation = localRotation;
+            child.localScale = localScale;
         }
+
+        // Restore the parent object's position to its position before the restore
+        transform.parent.position = positionBeforeRestore;
     }
 
     public void Explode(float value)
     {
-        foreach (var part in GetComponentsInChildren<MeshRenderer>())
+        if ((value > 0) && !isExploded) isExploded = true;
+        else if (value == 0)
         {
-            if (!originalPositions.ContainsKey(part.transform))
+            RestorePartTransforms();
+            isExploded = false;
+        }
+        else
+        {
+            foreach (MeshRenderer part in GetComponentsInChildren<MeshRenderer>())
             {
-                originalPositions[part.transform] = part.transform.position;
+                Vector3 explodedPosition = part.bounds.center;
+                part.transform.position = Vector3.Lerp(transform.parent.position, explodedPosition, value);
             }
-
-            Vector3 explodedPosition = part.bounds.center;
-            part.transform.position = Vector3.Lerp(originalPositions[part.transform], explodedPosition, value);
         }
     }
 
@@ -87,13 +99,13 @@ public class IndividualParts : MonoBehaviour
         GameObject rayGrabInteraction = rayGrabInteractions[part];
         rayGrabInteraction.GetComponent<RayInteractable>().enabled = state;
     }
+
+
     private void SavePartTransforms()
     {
-        savedPartTransforms.Clear();
         foreach (Transform child in transform)
         {
-            savedPartTransforms.Add(child, (child.position, child.rotation, child.localScale));
-            ToggleRayGrabInteraction(child, true);
+            savedPartTransforms.Add(child, (child.localPosition, child.localRotation, child.localScale));
         }
     }
 }

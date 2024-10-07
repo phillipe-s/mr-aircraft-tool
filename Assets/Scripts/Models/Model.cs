@@ -7,11 +7,14 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
-    public string modelName;
+    [SerializeField] private string modelName;
+    public string ModelName { get => modelName; }
     [SerializeField] private IndividualParts modelParts;
     public IndividualParts ModelParts { get => modelParts; }
     private List<Model>? refinedParts = new List<Model>();
     public List<Model>? RefinedParts { get => refinedParts; }
+    [SerializeField] private Model parentModel;
+    public Model ParentModel { get => parentModel; }
 
     void Awake()
     {
@@ -19,6 +22,5 @@ public class Model : MonoBehaviour
 
         RefinedPartController? refinedPartController = GetComponentInChildren<RefinedPartController>();
         if (refinedPartController != null) refinedParts = refinedPartController.RefinedParts;
-        else Debug.LogWarning($"{name} does not have refined parts");
     }
 }

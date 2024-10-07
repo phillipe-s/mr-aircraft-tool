@@ -27,6 +27,10 @@ public class ModelController : MonoBehaviour
     public void SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
+
+        // Set the location of the new model to the location of the current model
+        model.transform.position = currentModel.transform.position;
+
         currentModel = model;
         currentModel.gameObject.SetActive(true);
     }
@@ -52,9 +56,8 @@ public class ModelController : MonoBehaviour
 
     public void ToggleRefinedPart(Model refinedPart, bool active)
     {
-        Debug.Log($"Toggling {refinedPart.modelName} to {active}");
-        // refinedPart.gameObject.SetActive(active);
-        // (refinedPart.transform.position, refinedPart.transform.rotation) = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+        if (active) SwitchToModel(refinedPart);
+        else SwitchToModel(refinedPart.ParentModel);
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
