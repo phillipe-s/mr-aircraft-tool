@@ -56,7 +56,11 @@ public class UIController : MonoBehaviour
     [ContextMenu("Toggle Refined Parts Menu For Current Model")]
     public void ToggleRefinedPartsMenu()
     {
-        if (modelController.CurrentModel.RefinedParts == null) return;
+        if (modelController.CurrentModel.RefinedParts == null)
+        {
+            Debug.LogWarning("Current model does not have refined parts");
+            return;
+        }
 
         if (refinedPartsMenu == null)
         {
@@ -64,14 +68,19 @@ public class UIController : MonoBehaviour
             (refinedPartsMenu.transform.position, refinedPartsMenu.transform.rotation) = GetPositionInFrontOfCamera();
             refinedPartsMenu.SetActive(false);
 
+            Model currentModel;
+            if (modelController.CurrentModel.ParentModel != null) currentModel = modelController.CurrentModel.ParentModel;
+            else currentModel = modelController.CurrentModel;
+
+
             // Populate the refined parts menu with buttons
-            foreach (Model refinedPart in modelController.CurrentModel.RefinedParts)
+            foreach (Model refinedPart in currentModel.RefinedParts)
             {
                 Transform content = refinedPartsMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
                 content.GetComponent<ToggleGroup>().allowSwitchOff = true;
 
                 GameObject button = Instantiate(scrollMenuButtonPrefab, content);
-                button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = refinedPart.modelName;
+                button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = refinedPart.ModelName;
                 Toggle toggle = button.GetComponent<Toggle>();
                 toggle.group = content.GetComponent<ToggleGroup>();
                 toggle.onValueChanged.AddListener((value) =>
