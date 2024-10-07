@@ -9,6 +9,7 @@ using UnityEngine;
 public class IndividualParts : MonoBehaviour
 {
     private bool enableIndividualParts = false;
+    [SerializeField] private GameObject grabInteractions;
     public bool IndividualPartsEnabled { get => enableIndividualParts; }
     [SerializeField] private GameObject rayGrabInteractionPrefab;
     private Dictionary<Transform, GameObject> rayGrabInteractions = new Dictionary<Transform, GameObject>();
@@ -26,10 +27,12 @@ public class IndividualParts : MonoBehaviour
         if (!enableIndividualParts)
         {
             SavePartTransforms();
+            grabInteractions.SetActive(false);
         }
         else
         {
             RestorePartTransforms();
+            grabInteractions.SetActive(true);
         }
 
         enableIndividualParts = !enableIndividualParts;
