@@ -33,6 +33,9 @@ public class ModelController : MonoBehaviour
 
         currentModel = model;
         currentModel.gameObject.SetActive(true);
+
+        uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
     }
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
