@@ -12,8 +12,6 @@ public class ModelController : MonoBehaviour
     public Model CurrentModel { get => currentModel; }
     [SerializeField] UIController uiController;
 
-
-
     void Awake()
     {
         foreach (Model model in models)
