@@ -1,41 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ModelsController : MonoBehaviour
+public class ModelController : MonoBehaviour
 {
     public List<Model> models;
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
+    [SerializeField] UIController uiController;
 
-    void Start()
+
+
+    void Awake()
     {
-        foreach (Transform child in transform)
+        foreach (Model model in models)
         {
-            child.gameObject.SetActive(false);
+            model.gameObject.SetActive(false);
         }
-
         currentModel = models[0];
         currentModel.gameObject.SetActive(true);
-    }
-
-    void Update()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleIndividualParts();
     }
 
     public void SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
+
+        // Set the location of the new model to the location of the current model
+        model.transform.position = currentModel.transform.position;
+
         currentModel = model;
         currentModel.gameObject.SetActive(true);
+
+        uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
     }
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
-    public void ToggleIndividualParts()
+    public void ToggleIndividualPartsCurrentModel()
     {
-        currentModel.ToggleIndividualParts();
+        currentModel.ModelParts.ToggleIndividualParts();
+        uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+    }
+
+
+    [ContextMenu("Reset Current Model")]
+    public void ResetModel()
+    {
+        currentModel.ModelParts.RestorePartTransforms();
+    }
+
+    public void OnExplosionSliderChange(float value)
+    {
+        currentModel.ModelParts.Explode(value);
+    }
+
+    public void ToggleRefinedPart(Model refinedPart, bool active)
+    {
+        if (active) SwitchToModel(refinedPart);
+        else SwitchToModel(refinedPart.ParentModel);
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
@@ -47,5 +72,4 @@ public class ModelsController : MonoBehaviour
         currentModel = models[1];
         currentModel.gameObject.SetActive(true);
     }
-
 }
