@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class RefinedPartController : MonoBehaviour
+public class RefinedPartController : NetworkBehaviour
 {
     private List<Model> refinedParts = new List<Model>();
     public List<Model> RefinedParts { get => refinedParts; }

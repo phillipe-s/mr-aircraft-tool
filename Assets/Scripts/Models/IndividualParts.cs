@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Meta.XR.ImmersiveDebugger.UserInterface.Generic;
 using Meta.XR.MultiplayerBlocks.Fusion;
 using Meta.XR.MultiplayerBlocks.Shared;
 using Oculus.Interaction;
@@ -23,20 +24,13 @@ public class IndividualParts : NetworkBehaviour
     private Vector3 positionBeforeExplode;
     private Dictionary<Transform, Vector3> partPositionsBeforeExplode = new Dictionary<Transform, Vector3>();
 
+    void Awake()
+    {
+        AddComponentsToParts();
+    }
+
     void Start()
     {
-        nestedParts = GetAllNestedObjectsWithMeshComponents(transform);
-
-        foreach (Transform child in nestedParts)
-        {
-            AddRayGrabInteraction(child);
-        }
-
-        foreach (Transform child in nestedParts)
-        {
-            AddNetworkComponents(child);
-        }
-
         SavePartTransforms();
         SavePartPositionsBeforeExplode();
     }
@@ -52,7 +46,7 @@ public class IndividualParts : NetworkBehaviour
             foreach (Transform child in nestedParts)
             {
                 ToggleRayGrabInteraction(child, true);
-                ToggleTransferOwnership(child, true);
+                // ToggleTransferOwnership(child, true);
             }
             grabInteractions.SetActive(false);
         }
@@ -62,7 +56,7 @@ public class IndividualParts : NetworkBehaviour
             foreach (Transform child in nestedParts)
             {
                 ToggleRayGrabInteraction(child, false);
-                ToggleTransferOwnership(child, false);
+                // ToggleTransferOwnership(child, false);
             }
             grabInteractions.SetActive(true);
         }
@@ -124,10 +118,12 @@ public class IndividualParts : NetworkBehaviour
 
     private void AddComponentsToParts()
     {
+        nestedParts = GetAllNestedObjectsWithMeshComponents(transform);
+
         foreach (Transform child in nestedParts)
         {
             AddRayGrabInteraction(child);
-            AddNetworkComponents(child);
+            // AddNetworkComponents(child);
         }
     }
 
@@ -144,27 +140,33 @@ public class IndividualParts : NetworkBehaviour
         rayGrabInteraction.SetActive(true);
     }
 
-    private void AddNetworkComponents(Transform child)
-    {
-        // !IMPORTANT: Each part must be 'baked' with a NetworkObject component (added through the Unity Editor)
-        // - Allow State Authoirty Override = true
-        // - Destroy When State Authority Leaves = false 
+    // private void AddNetworkComponents(Transform child)
+    // {
+    //     // !IMPORTANT: Each part must be 'baked' with a NetworkObject component (added through the Unity Editor)
+    //     // - Allow State Authoirty Override = false - current implementation does not support this
+    //     // - Destroy When State Authority Leaves = false 
+    //     // The part must also have a NetworkTransform component so that it is added to the NetworkBehaviour list
+    //     // NetworkObject: https://doc.photonengine.com/fusion/current/manual/network-object
+    //     // NetworkBehaviour: https://doc.photonengine.com/fusion/current/manual/network-behaviour
 
-        NetworkTransform networkTransform = child.gameObject.AddComponent<NetworkTransform>();
-        networkTransform.SyncScale = true;
-        networkTransform.SyncParent = false;
-        networkTransform.AutoUpdateAreaOfInterestOverride = true;
-        networkTransform.DisableSharedModeInterpolation = true;
+    //     NetworkTransform networkTransform = child.gameObject.AddComponent<NetworkTransform>();
+    //     networkTransform.SyncScale = true;
+    //     networkTransform.SyncParent = false;
+    //     networkTransform.AutoUpdateAreaOfInterestOverride = true;
+    //     networkTransform.DisableSharedModeInterpolation = true;
 
-        child.gameObject.AddComponent<TransferOwnershipFusion>().enabled = false;
-        child.gameObject.AddComponent<TransferOwnershipOnSelect>().enabled = false;
-    }
+    //     // child.gameObject.AddComponent<TransferOwnershipFusion>().enabled = false;
+    //     // child.gameObject.AddComponent<TransferOwnershipOnSelect>().enabled = false;
 
-    private void ToggleTransferOwnership(Transform part, bool state)
-    {
-        part.gameObject.GetComponent<TransferOwnershipFusion>().enabled = state;
-        part.gameObject.GetComponent<TransferOwnershipOnSelect>().enabled = state;
-    }
+    //     // Get the NetworkObject component from the child object
+    //     NetworkObject networkObject = child.gameObject.GetComponent<NetworkObject>();
+    // }
+
+    // private void ToggleTransferOwnership(Transform part, bool state)
+    // {
+    //     part.gameObject.GetComponent<TransferOwnershipFusion>().enabled = state;
+    //     part.gameObject.GetComponent<TransferOwnershipOnSelect>().enabled = state;
+    // }
 
     private void ToggleRayGrabInteraction(Transform part, bool state)
     {

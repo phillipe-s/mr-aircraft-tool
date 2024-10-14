@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Fusion;
 using Oculus.Interaction;
 using UnityEngine;
 
 #nullable enable
 
-public class Model : MonoBehaviour
+public class Model : NetworkBehaviour
 {
     [SerializeField, Optional] private string modelName;
     public string ModelName { get => modelName; }
