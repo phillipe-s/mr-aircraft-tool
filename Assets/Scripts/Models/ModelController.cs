@@ -26,7 +26,7 @@ public class ModelController : NetworkBehaviour
     public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SwitchToModel(Model model)
+    private void RPC_SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
 
