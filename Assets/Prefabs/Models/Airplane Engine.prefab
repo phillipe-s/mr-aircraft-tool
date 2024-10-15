@@ -270,8 +270,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7384269921511861997}
-  - component: {fileID: 821745539573725178}
   - component: {fileID: 5859888621222308582}
+  - component: {fileID: 821745539573725178}
   m_Layer: 0
   m_Name: Airplane Engine
   m_TagString: Untagged
@@ -296,21 +296,6 @@ Transform:
   - {fileID: 7260505425404412302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
---- !u!114 &821745539573725178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7433812842440080636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50b32d47712100644ae1d24eb8385098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modelName: Airplane Engine
-  modelParts: {fileID: 6043497055099503859}
-  parentModel: {fileID: 0}
 --- !u!54 &5859888621222308582
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -338,6 +323,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &821745539573725178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433812842440080636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b32d47712100644ae1d24eb8385098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelName: Airplane Engine
+  modelParts: {fileID: 6043497055099503859}
+  parentModel: {fileID: 0}
 --- !u!1 &8391208098532278135
 GameObject:
   m_ObjectHideFlags: 0

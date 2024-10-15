@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModelController : MonoBehaviour
+public class ModelController : NetworkBehaviour
 {
     public List<Model> models;
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
     [SerializeField] UIController uiController;
-
-
 
     void Awake()
     {
@@ -24,7 +23,10 @@ public class ModelController : MonoBehaviour
         currentModel.gameObject.SetActive(true);
     }
 
-    public void SwitchToModel(Model model)
+    public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
 
@@ -56,6 +58,7 @@ public class ModelController : MonoBehaviour
     {
         currentModel.ModelParts.Explode(value);
     }
+
 
     public void ToggleRefinedPart(Model refinedPart, bool active)
     {
