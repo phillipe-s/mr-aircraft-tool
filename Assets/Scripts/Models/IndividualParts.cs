@@ -14,11 +14,13 @@ using UnityEngine;
 public class IndividualParts : NetworkBehaviour
 {
     private bool enableIndividualParts = false;
-    [SerializeField] private GameObject grabInteractions;
     public bool IndividualPartsEnabled { get => enableIndividualParts; }
-    [SerializeField] private GameObject rayGrabInteractionPrefab;
     private List<Transform> nestedParts = new List<Transform>();
-    private Dictionary<Transform, GameObject> rayGrabInteractions = new Dictionary<Transform, GameObject>();
+    [SerializeField] private GameObject grabInteractions;
+    [SerializeField] private GameObject grabInteractionsPrefab;
+    private Dictionary<Transform, GameObject> grabInteractionsDict = new Dictionary<Transform, GameObject>();
+    [SerializeField] private GameObject rayGrabInteractionPrefab;
+    private Dictionary<Transform, GameObject> rayGrabInteractionsDict = new Dictionary<Transform, GameObject>();
     private Dictionary<Transform, (Vector3 position, Quaternion rotation, Vector3 scale)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion, Vector3)>();
     private bool isExploded = false;
     private Vector3 positionBeforeExplode;
@@ -45,8 +47,7 @@ public class IndividualParts : NetworkBehaviour
         {
             foreach (Transform child in nestedParts)
             {
-                ToggleRayGrabInteraction(child, true);
-                // ToggleTransferOwnership(child, true);
+                ToggleInteractions(child, true);
             }
             grabInteractions.SetActive(false);
         }
@@ -55,8 +56,7 @@ public class IndividualParts : NetworkBehaviour
             if (!isExploded) RestorePartTransforms();
             foreach (Transform child in nestedParts)
             {
-                ToggleRayGrabInteraction(child, false);
-                // ToggleTransferOwnership(child, false);
+                ToggleInteractions(child, false);
             }
             grabInteractions.SetActive(true);
         }
@@ -120,10 +120,11 @@ public class IndividualParts : NetworkBehaviour
     {
         nestedParts = GetAllNestedObjectsWithMeshComponents(transform);
 
-        foreach (Transform child in nestedParts)
+        foreach (Transform part in nestedParts)
         {
-            AddRayGrabInteraction(child);
-            // AddNetworkComponents(child);
+            AddRayGrabInteraction(part);
+            AddGrabInteractions(part);
+            // AddNetworkComponents(part);
         }
     }
 
@@ -131,13 +132,25 @@ public class IndividualParts : NetworkBehaviour
     {
         GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
         rayGrabInteraction.SetActive(false);
-        rayGrabInteractions[child] = rayGrabInteraction;
+        rayGrabInteractionsDict[child] = rayGrabInteraction;
 
         rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
         rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
         rayGrabInteraction.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
         rayGrabInteraction.GetComponent<RayInteractable>().enabled = false;
+
         rayGrabInteraction.SetActive(true);
+    }
+
+    private void AddGrabInteractions(Transform child)
+    {
+        GameObject grabInteractions = Instantiate(grabInteractionsPrefab, child);
+        grabInteractions.SetActive(false);
+        grabInteractionsDict[child] = grabInteractions;
+
+        grabInteractions.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
+        grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(null);
+        grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
     }
 
     // private void AddNetworkComponents(Transform child)
@@ -168,10 +181,33 @@ public class IndividualParts : NetworkBehaviour
     //     part.gameObject.GetComponent<TransferOwnershipOnSelect>().enabled = state;
     // }
 
-    private void ToggleRayGrabInteraction(Transform part, bool state)
+    private void ToggleInteractions(Transform part, bool state)
     {
-        GameObject rayGrabInteraction = rayGrabInteractions[part];
+        GameObject rayGrabInteraction = rayGrabInteractionsDict[part];
         rayGrabInteraction.GetComponent<RayInteractable>().enabled = state;
+
+        GameObject grabInteractions = grabInteractionsDict[part];
+        if (state)
+        {
+            Rigidbody rigidbody = part.gameObject.AddComponent<Rigidbody>();
+            rigidbody.isKinematic = true;
+            rigidbody.useGravity = false;
+
+            grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(rigidbody);
+            grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(rigidbody);
+            grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(rigidbody);
+            grabInteractions.SetActive(true);
+        }
+        else
+        {
+            Destroy(part.gameObject.GetComponent<RigidbodyKinematicLocker>());
+            grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(null);
+            grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
+            grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(null);
+            Destroy(part.gameObject.GetComponent<Rigidbody>());
+            grabInteractions.SetActive(false);
+        }
+
     }
 
     private List<Transform> GetAllNestedObjectsWithMeshComponents(Transform parent)
@@ -183,7 +219,6 @@ public class IndividualParts : NetworkBehaviour
             if ((child.GetComponent<Collider>() != null) && (child.GetComponent<Renderer>() != null))
             {
                 result.Add(child);
-                Debug.Log($"Found object with mesh components: {child.name}");
             }
 
             result.AddRange(GetAllNestedObjectsWithMeshComponents(child));
