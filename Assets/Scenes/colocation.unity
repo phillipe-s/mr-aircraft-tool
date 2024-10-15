@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabInteractions: {fileID: 1651965581}
+  grabInteractionsPrefab: {fileID: 0}
   rayGrabInteractionPrefab: {fileID: 4368846234269360198, guid: be59d7c1674d02e4dbe0638a913ddee0, type: 3}
 --- !u!1 &5803684
 GameObject:
@@ -1654,7 +1655,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1725306248
+  SortKey: 2905954576
   ObjectInterest: 1
   Flags: 524289
   NestedObjects: []
@@ -4925,7 +4926,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 685993523
+  SortKey: 1866641851
   ObjectInterest: 1
   Flags: 264449
   NestedObjects: []
