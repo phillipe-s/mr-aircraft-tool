@@ -153,34 +153,6 @@ public class IndividualParts : NetworkBehaviour
         grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
     }
 
-    // private void AddNetworkComponents(Transform child)
-    // {
-    //     // !IMPORTANT: Each part must be 'baked' with a NetworkObject component (added through the Unity Editor)
-    //     // - Allow State Authoirty Override = false - current implementation does not support this
-    //     // - Destroy When State Authority Leaves = false 
-    //     // The part must also have a NetworkTransform component so that it is added to the NetworkBehaviour list
-    //     // NetworkObject: https://doc.photonengine.com/fusion/current/manual/network-object
-    //     // NetworkBehaviour: https://doc.photonengine.com/fusion/current/manual/network-behaviour
-
-    //     NetworkTransform networkTransform = child.gameObject.AddComponent<NetworkTransform>();
-    //     networkTransform.SyncScale = true;
-    //     networkTransform.SyncParent = false;
-    //     networkTransform.AutoUpdateAreaOfInterestOverride = true;
-    //     networkTransform.DisableSharedModeInterpolation = true;
-
-    //     // child.gameObject.AddComponent<TransferOwnershipFusion>().enabled = false;
-    //     // child.gameObject.AddComponent<TransferOwnershipOnSelect>().enabled = false;
-
-    //     // Get the NetworkObject component from the child object
-    //     NetworkObject networkObject = child.gameObject.GetComponent<NetworkObject>();
-    // }
-
-    // private void ToggleTransferOwnership(Transform part, bool state)
-    // {
-    //     part.gameObject.GetComponent<TransferOwnershipFusion>().enabled = state;
-    //     part.gameObject.GetComponent<TransferOwnershipOnSelect>().enabled = state;
-    // }
-
     private void ToggleInteractions(Transform part, bool state)
     {
         GameObject rayGrabInteraction = rayGrabInteractionsDict[part];
