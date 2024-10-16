@@ -259,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069ab55ad706f58499de489cc69c7273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabInteractions: {fileID: 8648832752427117772}
+  parentModelGrabInteractions: {fileID: 0}
+  grabInteractionsPrefab: {fileID: 0}
   rayGrabInteractionPrefab: {fileID: 4368846234269360198, guid: be59d7c1674d02e4dbe0638a913ddee0, type: 3}
 --- !u!1 &7433812842440080636
 GameObject:
@@ -292,8 +293,8 @@ Transform:
   m_LocalScale: {x: 150, y: 362.5307, z: 150}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1572555065281533638}
   - {fileID: 7260505425404412302}
+  - {fileID: 1572555065281533638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!54 &5859888621222308582
@@ -524,10 +525,5 @@ PrefabInstance:
 --- !u!4 &7260505425404412302 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1941053820173315105, guid: 9ac7177ee4ac9274f9d3dcc34510060e, type: 3}
-  m_PrefabInstance: {fileID: 9093468161698606511}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8648832752427117772 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 447174186724491619, guid: 9ac7177ee4ac9274f9d3dcc34510060e, type: 3}
   m_PrefabInstance: {fileID: 9093468161698606511}
   m_PrefabAsset: {fileID: 0}

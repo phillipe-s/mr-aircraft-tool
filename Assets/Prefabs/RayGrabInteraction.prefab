@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 551929538613361051}
   - component: {fileID: 4418271620876503683}
   - component: {fileID: 5916487844821203770}
-  - component: {fileID: 7788811186459580280}
   - component: {fileID: 8649379137164834870}
   m_Layer: 0
   m_Name: RayGrabInteraction
@@ -119,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 3356636661956847977}
-  _editor: {fileID: 7788811186459580280}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 1, g: 1, b: 1, a: 0}
@@ -229,23 +228,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     ColorTime: 0.2
---- !u!114 &7788811186459580280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368846234269360198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers: []
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
 --- !u!114 &8649379137164834870
 MonoBehaviour:
   m_ObjectHideFlags: 0

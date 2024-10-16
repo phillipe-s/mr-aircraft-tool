@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using JetBrains.Annotations;
 using Meta.XR.ImmersiveDebugger.UserInterface.Generic;
 using Meta.XR.MultiplayerBlocks.Fusion;
 using Meta.XR.MultiplayerBlocks.Shared;
@@ -16,10 +17,12 @@ public class IndividualParts : NetworkBehaviour
     private bool enableIndividualParts = false;
     public bool IndividualPartsEnabled { get => enableIndividualParts; }
     private List<Transform> nestedParts = new List<Transform>();
-    [SerializeField] private GameObject grabInteractions;
+    [SerializeField] private GameObject parentModelGrabInteractions;
     [SerializeField] private GameObject grabInteractionsPrefab;
     private Dictionary<Transform, GameObject> grabInteractionsDict = new Dictionary<Transform, GameObject>();
     [SerializeField] private GameObject rayGrabInteractionPrefab;
+    private bool rayGrabInteractionsEnabled = false;
+    public bool RayGrabInteractionsEnabled { get => rayGrabInteractionsEnabled; }
     private Dictionary<Transform, GameObject> rayGrabInteractionsDict = new Dictionary<Transform, GameObject>();
     private Dictionary<Transform, (Vector3 position, Quaternion rotation, Vector3 scale)> savedPartTransforms = new Dictionary<Transform, (Vector3, Quaternion, Vector3)>();
     private bool isExploded = false;
@@ -47,24 +50,37 @@ public class IndividualParts : NetworkBehaviour
         {
             foreach (Transform child in nestedParts)
             {
-                ToggleInteractions(child, true);
+                if (rayGrabInteractionsEnabled) ToggleRayInteraction(child, true);
+                ToggleGrabInteraction(child, true);
             }
-            grabInteractions.SetActive(false);
+            parentModelGrabInteractions.GetComponent<GrabInteractable>().enabled = false;
         }
         else
         {
             if (!isExploded) RestorePartTransforms();
             foreach (Transform child in nestedParts)
             {
-                ToggleInteractions(child, false);
+                if (!rayGrabInteractionsEnabled) ToggleRayInteraction(child, false);
+                ToggleGrabInteraction(child, false);
             }
-            grabInteractions.SetActive(true);
+            parentModelGrabInteractions.GetComponent<GrabInteractable>().enabled = false;
         }
 
         enableIndividualParts = !enableIndividualParts;
         Debug.Log($"Individual parts toggled to {enableIndividualParts}");
     }
 
+    [ContextMenu("Toggle Ray Grab Interactions")]
+    public void ToggleRayGrabInteractions()
+    {
+        rayGrabInteractionsEnabled = !rayGrabInteractionsEnabled;
+        foreach (Transform child in nestedParts)
+        {
+            ToggleRayInteraction(child, rayGrabInteractionsEnabled);
+        }
+    }
+
+    [ContextMenu("Restore Part Transforms")]
     public void RestorePartTransforms() { RPC_RestorePartTransforms(); }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -93,8 +109,8 @@ public class IndividualParts : NetworkBehaviour
     {
         if ((value > 0) && !isExploded)
         {
-            isExploded = true;
             SavePartPositionsBeforeExplode();
+            isExploded = true;
         }
         else if (value == 0)
         {
@@ -122,64 +138,69 @@ public class IndividualParts : NetworkBehaviour
 
         foreach (Transform part in nestedParts)
         {
-            AddRayGrabInteraction(part);
             AddGrabInteractions(part);
-            // AddNetworkComponents(part);
+            AddRayGrabInteraction(part);
         }
-    }
-
-    private void AddRayGrabInteraction(Transform child)
-    {
-        GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
-        rayGrabInteraction.SetActive(false);
-        rayGrabInteractionsDict[child] = rayGrabInteraction;
-
-        rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
-        rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
-        rayGrabInteraction.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
-        rayGrabInteraction.GetComponent<RayInteractable>().enabled = false;
-
-        rayGrabInteraction.SetActive(true);
     }
 
     private void AddGrabInteractions(Transform child)
     {
         GameObject grabInteractions = Instantiate(grabInteractionsPrefab, child);
-        grabInteractions.SetActive(false);
         grabInteractionsDict[child] = grabInteractions;
 
+        grabInteractions.GetComponent<GrabInteractable>().enabled = false;
+        grabInteractions.GetComponent<HandGrabInteractable>().enabled = false;
         grabInteractions.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
         grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(null);
         grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
+        grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(null);
+        grabInteractions.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
     }
 
-    private void ToggleInteractions(Transform part, bool state)
+    private void AddRayGrabInteraction(Transform child)
+    {
+        GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
+        rayGrabInteractionsDict[child] = rayGrabInteraction;
+
+        rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
+        rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
+        rayGrabInteraction.GetComponent<RayInteractable>().enabled = false;
+        rayGrabInteraction.GetComponent<InteractableColorVisual>().InjectMaterialPropertyBlockEditor(grabInteractionsDict[child].GetComponent<MaterialPropertyBlockEditor>());
+    }
+
+    private void ToggleRayInteraction(Transform part, bool state)
     {
         GameObject rayGrabInteraction = rayGrabInteractionsDict[part];
         rayGrabInteraction.GetComponent<RayInteractable>().enabled = state;
+    }
 
+    private void ToggleGrabInteraction(Transform part, bool state)
+    {
         GameObject grabInteractions = grabInteractionsDict[part];
+        Grabbable grabbable = grabInteractions.GetComponent<Grabbable>();
+        HandGrabInteractable handGrabInteractable = grabInteractions.GetComponent<HandGrabInteractable>();
+        GrabInteractable grabInteractable = grabInteractions.GetComponent<GrabInteractable>();
+
         if (state)
         {
             Rigidbody rigidbody = part.gameObject.AddComponent<Rigidbody>();
             rigidbody.isKinematic = true;
             rigidbody.useGravity = false;
 
-            grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(rigidbody);
-            grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(rigidbody);
-            grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(rigidbody);
-            grabInteractions.SetActive(true);
+            grabbable.InjectOptionalRigidbody(rigidbody);
+            handGrabInteractable.InjectRigidbody(rigidbody);
+            grabInteractable.InjectRigidbody(rigidbody);
+            grabInteractable.enabled = true;
+            handGrabInteractable.enabled = true;
         }
         else
         {
+            grabInteractionsDict.Remove(part);
+            Destroy(grabInteractions);
             Destroy(part.gameObject.GetComponent<RigidbodyKinematicLocker>());
-            grabInteractions.GetComponent<Grabbable>().InjectOptionalRigidbody(null);
-            grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
-            grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(null);
             Destroy(part.gameObject.GetComponent<Rigidbody>());
-            grabInteractions.SetActive(false);
+            AddGrabInteractions(part);
         }
-
     }
 
     private List<Transform> GetAllNestedObjectsWithMeshComponents(Transform parent)
