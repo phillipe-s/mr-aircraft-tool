@@ -10,49 +10,52 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private ModelController modelController;
     [SerializeField] private GameObject centerEyeAnchor;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private AudioSource showMenuSound;
+    [SerializeField] private AudioSource hideMenuSound;
+    [SerializeField] private GameObject modelMenu;
     [SerializeField] private GameObject scrollMenuPrefab;
     [SerializeField] private GameObject scrollMenuButtonPrefab;
-    [SerializeField] private GameObject modelMenu;
-    [SerializeField] private GameObject modelMenuToggle;
     [SerializeField] private GameObject individualPartsToggle;
     public GameObject IndividualPartsToggle { get => individualPartsToggle; }
-    [SerializeField] private GameObject sliderPrefab;
-    private GameObject explosionSlider;
-    [SerializeField] private GameObject explosionSliderToggle;
-    private GameObject refinedPartsMenu;
+    [SerializeField] private GameObject rayInteractorToggle;
+    public GameObject RayInteractorToggle { get => rayInteractorToggle; }
+    private bool refinedPartsMenuActive = false;
+    public bool RefinedPartsMenuActive { get => refinedPartsMenuActive; }
     public GameObject refinedPartsMenuToggle;
+    [SerializeField] private GameObject explosionSlider;
     private List<Toggle> refinedPartToggles = new List<Toggle>();
-    private float menuDistanceInFrontOfCamera = 0.3f;
+    private float menuDistanceInFrontOfCamera = 0.5f;
 
     void Start()
     {
-        modelMenu.SetActive(false);
-
-        explosionSlider = Instantiate(sliderPrefab);
-        explosionSlider.SetActive(false);
+        mainMenu.SetActive(false);
         explosionSlider.GetComponentInChildren<Slider>().onValueChanged.AddListener(modelController.OnExplosionSliderChange);
 
-        ToggleIcons(modelMenuToggle, false);
         ToggleIcons(individualPartsToggle, false);
-        ToggleIcons(explosionSliderToggle, false);
         ToggleIcons(refinedPartsMenuToggle, false);
+        ToggleIcons(rayInteractorToggle, false);
+    }
+
+    void Update()
+    {
+        if (OVRInput.GetDown(OVRInput.Button.Start))
+        {
+            ToggleMenu();
+        }
     }
 
     [ContextMenu("Toggle Model Menu")]
-    public void ToggleModelMenu()
+    public void ToggleMenu()
     {
-        (modelMenu.transform.position, modelMenu.transform.rotation) = GetPositionInFrontOfCamera();
-        modelMenu.SetActive(!modelMenu.activeSelf);
-        ToggleIcons(modelMenuToggle, modelMenu.activeSelf);
+        (mainMenu.transform.position, mainMenu.transform.rotation) = GetPositionInFrontOfCamera();
+        mainMenu.SetActive(!mainMenu.activeSelf);
+
+        if (mainMenu.activeSelf) showMenuSound.Play();
+        else hideMenuSound.Play();
+
     }
 
-    [ContextMenu("Toggle Explosion Slider")]
-    public void ToggleExplosionSlider()
-    {
-        (explosionSlider.transform.position, explosionSlider.transform.rotation) = GetPositionInFrontOfCamera();
-        explosionSlider.SetActive(!explosionSlider.activeSelf);
-        ToggleIcons(explosionSliderToggle, explosionSlider.activeSelf);
-    }
 
     [ContextMenu("Toggle Refined Parts Menu For Current Model")]
     public void ToggleRefinedPartsMenu()
@@ -63,21 +66,23 @@ public class UIController : MonoBehaviour
             return;
         }
 
-        if (refinedPartsMenu == null)
+        Transform content = modelMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
+        Model currentModel;
+        if (modelController.CurrentModel.ParentModel != null) currentModel = modelController.CurrentModel.ParentModel;
+        else currentModel = modelController.CurrentModel;
+
+        if (currentModel.RefinedParts == null) return;
+
+        if (!refinedPartsMenuActive)
         {
-            refinedPartsMenu = Instantiate(scrollMenuPrefab);
-            (refinedPartsMenu.transform.position, refinedPartsMenu.transform.rotation) = GetPositionInFrontOfCamera();
-            refinedPartsMenu.SetActive(false);
-
-            Model currentModel;
-            if (modelController.CurrentModel.ParentModel != null) currentModel = modelController.CurrentModel.ParentModel;
-            else currentModel = modelController.CurrentModel;
-
-
             // Populate the refined parts menu with buttons
             foreach (Model refinedPart in currentModel.RefinedParts)
             {
-                Transform content = refinedPartsMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
+                foreach (Transform modelButton in content)
+                {
+                    modelButton.gameObject.SetActive(false);
+                }
+
                 content.GetComponent<ToggleGroup>().allowSwitchOff = true;
 
                 GameObject button = Instantiate(scrollMenuButtonPrefab, content);
@@ -90,20 +95,26 @@ public class UIController : MonoBehaviour
                 });
                 refinedPartToggles.Add(toggle);
             }
-            refinedPartsMenu.SetActive(true);
             ToggleIcons(refinedPartsMenuToggle, true);
+            refinedPartsMenuActive = true;
         }
         else
         {
             foreach (Toggle toggle in refinedPartToggles)
             {
                 toggle.onValueChanged.RemoveAllListeners();
+                Destroy(toggle.gameObject);
             }
-            refinedPartToggles.Clear();
 
-            Destroy(refinedPartsMenu);
-            refinedPartsMenu = null;
+            refinedPartToggles.Clear();
+            refinedPartsMenuActive = false;
             ToggleIcons(refinedPartsMenuToggle, false);
+            content.GetComponent<ToggleGroup>().allowSwitchOff = false;
+
+            foreach (Transform modelButton in content)
+            {
+                modelButton.gameObject.SetActive(true);
+            }
         }
     }
 

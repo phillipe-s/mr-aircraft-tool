@@ -20,8 +20,8 @@ public class ModelController : NetworkBehaviour
             model.gameObject.SetActive(false);
         }
         currentModel = models[0];
-        currentModel.gameObject.SetActive(true);
     }
+
 
     public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
 
@@ -37,14 +37,29 @@ public class ModelController : NetworkBehaviour
         currentModel.gameObject.SetActive(true);
 
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        Debug.Log($"Switched to model: {currentModel.ModelName}");
 
     }
+
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
     public void ToggleIndividualPartsCurrentModel()
     {
         currentModel.ModelParts.ToggleIndividualParts();
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
+        Debug.Log($"Individual Parts Enabled: {currentModel.ModelParts.IndividualPartsEnabled}");
+    }
+
+    [ContextMenu("Toggle Ray Interactor For Current Model")]
+    public void ToggleRayInteractor()
+    {
+        currentModel.ModelParts.ToggleRayGrabInteractions();
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        Debug.Log($"Ray Interactor Enabled: {currentModel.ModelParts.RayGrabInteractionsEnabled}");
     }
 
 
@@ -52,6 +67,7 @@ public class ModelController : NetworkBehaviour
     public void ResetModel()
     {
         currentModel.ModelParts.RestorePartTransforms();
+        Debug.Log($"Reset model: {currentModel.ModelName}");
     }
 
     public void OnExplosionSliderChange(float value)
@@ -64,6 +80,7 @@ public class ModelController : NetworkBehaviour
     {
         if (active) SwitchToModel(refinedPart);
         else SwitchToModel(refinedPart.ParentModel);
+        Debug.Log($"Toggled refined part: {refinedPart.ModelName}");
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
@@ -74,5 +91,6 @@ public class ModelController : NetworkBehaviour
         currentModel.gameObject.SetActive(false);
         currentModel = models[1];
         currentModel.gameObject.SetActive(true);
+        Debug.Log($"Switched to model at index 1: {currentModel.ModelName}");
     }
 }
