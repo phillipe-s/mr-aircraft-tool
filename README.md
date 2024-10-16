@@ -1,61 +1,44 @@
-![Discover Banner](./Documentation/Media/banner.png "Discover")
+![Tool Banner](./Documentation/Media/banner.jpg "Aircraft Operational Briefing Tool")
 
-# Discover
+# Aircraft Operational Briefing Tool
 
-Discover is a Mixed Reality (MR) project that demonstrates how to use key MR features and quickly integrate them in your own project.
+The Aircraft Operational Briefing Tool project involves developing a Proof-of-Concept (POC) Augmented Reality (AR) prototype for CAE Australia. 
 
-This codebase is available both as a reference and as a template for MR projects. 
+CAE is a high-tech company known for developing and delivering training and operational support solutions to global defence and security customers. 
 
-The majority of Discover is licensed under [MIT LICENSE](./LICENSE), however files from [Text Mesh Pro](http://www.unity3d.com/legal/licenses/Unity_Companion_License), and [Photon SDK](./Assets/Photon/LICENSE), are licensed under their respective licensing terms.
+They have achieved several achievements through their training systems and simulation hardware and now aims to introduce mixed reality for aircraft maintenance operations, briefing and training solution. 
 
-See the [CONTRIBUTING](./CONTRIBUTING.md) file for how to help out.
 
-This project was built using the [Unity engine](https://unity.com/) with [Photon Fusion](https://doc.photonengine.com/fusion/current/getting-started/fusion-intro).
 
-You will be able to test the game out on [AppLab - Discover](https://www.oculus.com/experiences/quest/7041851792509764/).
 
 ## Project Description
 
-In this project you can see how we use Scene API, Interaction SDK, Passthrough, Spatial Anchors and Shared Spatial Anchors.
+This project was built using the [Unity engine](https://unity.com/)
 
-The project also includes the [Meta Utilities](./Packages/com.meta.utilities/README.md) and [Meta Input Utilities](./Packages/com.meta.utilities.input/README.md) packages, which contain many useful tools and methods.
+The AR Prototype will be used by technicians and trainees as a supplementary tool for aircraft maintenance operations and support for maintenance briefings and trainings.
+
+Its development is strongly aligned with their mission and vision, as its introduction would revolutionise their current maintenance and training technology with a digitally immersive solution through interactive AR elements. 
+
 
 ## How to run the project in Unity
 
-1. [Configure the project](./Documentation/Configuration.md) with Meta Quest and Photon
-2. Make sure you're using  *Unity 2022.3.1f1* or newer.
-3. Load the [Assets/Discover/Scenes/Discover](./Assets/Discover/Scenes/Discover.unity) scene.
-4. To test in Editor you will need to use Quest Link:
-    <details>
-      <summary><b>Quest Link</b></summary>
+For an in-depth guide on how to get the project up and running on your own device from scratch, check out the:
 
-    - Enable Quest Link:
-        - Put on your headset and navigate to "Quick Settings"; select "Quest Link" (or "Quest Air Link" if using Air Link).
-        - Select your desktop from the list and then select, "Launch". This will launch the Quest Link app, allowing you to control your desktop from your headset.
-    - With the headset on, select "Desktop" from the control panel in front of you. You should be able to see your desktop in VR!
-    - Navigate to Unity and press "Play" - the application should launch on your headset automatically.
-    </details>
-
+[**Configuration**](./Documentation/Configuration.md) page
 ## Dependencies
 
-This project makes use of the following plugins and software:
+For an exaustive list of all the packages that this project depends on, check out the:
 
-- [Unity](https://unity.com/download) 2022.3.1f1 or newer
-- [Dependencies Hunter](https://github.com/AlexeyPerov/Unity-Dependencies-Hunter.git#upm)
-- [Meta Avatars SDK](https://developer.oculus.com/downloads/package/meta-avatars-sdk/)
-- [Meta XR Utilities](https://developer.oculus.com/documentation/unity/unity-package-manager/)
-- [Meta XR Platform SDK](https://developer.oculus.com/documentation/unity/ps-platform-intro/)
-- [Meta XR Interaction SDK](https://developer.oculus.com/documentation/unity/unity-isdk-interaction-sdk-overview/)
-- [ParrelSync](https://github.com/brogan89/ParrelSync)
-- [Photon Fusion](https://doc.photonengine.com/fusion/current/getting-started/sdk-download)
-- [Photon Voice 2](https://assetstore.unity.com/packages/tools/audio/photon-voice-2-130518)
-- [Unity Toolbar Extender](https://github.com/marijnz/unity-toolbar-extender.git)
-- [UniTask](https://github.com/Cysharp/UniTask)
-- [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes)
+[**Packages**](./Documentation/Packages.md) page
 
-The following is required to test this project within Unity:
+### Mandatory applications
+
+The following applications are required to test this project within Unity:
 
 - [The Oculus App](https://www.oculus.com/setup/)
+- [The Quest Link App](https://www.meta.com/en-gb/help/quest/articles/headsets-and-accessories/oculus-rift-s/install-app-for-link/)
+- [The Meta Quest Developer Hub App](https://developers.meta.com/horizon/documentation/unity/ts-odh-getting-started)
+- [The Unity Hub App](https://unity.com/download)
 
 # Getting the code
 
@@ -68,7 +51,7 @@ git lfs install
 Then, clone this repo using the "Code" button above, or this command:
 
 ```sh
-git clone https://github.com/oculus-samples/Unity-Discover.git
+git clone https://github.com/Philllipe/mr-aircraft-tool.git
 ```
 
 # Documentation
@@ -76,11 +59,5 @@ git clone https://github.com/oculus-samples/Unity-Discover.git
 More information can be found in the [Documentation](./Documentation) section of this project.
 
 - [Configuration](./Documentation/Configuration.md)
-- [Discover Overview](./Documentation/DiscoverOverview.md)
-- [Project Structure](./Documentation/ProjectStructure.md)
+- [Packages](./Documentation/Packages.md)
 
-Custom Packages:
-
-- [Meta Utilities](./Packages/com.meta.utilities/README.md)
-- [Meta Input Utilities](./Packages/com.meta.utilities.input/README.md)
-- [Meta Avatars Utilities](./Packages/com.meta.utilities.avatars/README.md)

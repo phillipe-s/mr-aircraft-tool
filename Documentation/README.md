@@ -4,6 +4,6 @@ Here you will find additional documentation to help you navigate through this pr
 
 |Document|Description|
 |-|-|
-|[Configuration](./Configuration.md)|How to configure the project to be functional, including Photon and Application settings|
-|[Discover Overview](./DiscoverOverview.md)|An overview of the functionality of the project.|
-|[Project Structure](./ProjectStructure.md)|Highlights the key elements of the project and additional information on their functionalities. This is a good starting point to dive in the code.|
+|[Configuration](./Configuration.md)|A full overview of how to get started with the project using unity|
+|[Packages](./Packages.md)|A list and breakdown of the packages that are used in the project.|
+
