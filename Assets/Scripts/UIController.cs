@@ -56,22 +56,12 @@ public class UIController : MonoBehaviour
 
     }
 
-
-    [ContextMenu("Toggle Refined Parts Menu For Current Model")]
     public void ToggleRefinedPartsMenu()
     {
-        if (modelController.CurrentModel.RefinedParts == null)
-        {
-            Debug.LogWarning("Current model does not have refined parts");
-            return;
-        }
-
         Transform content = modelMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
         Model currentModel;
         if (modelController.CurrentModel.ParentModel != null) currentModel = modelController.CurrentModel.ParentModel;
         else currentModel = modelController.CurrentModel;
-
-        if (currentModel.RefinedParts == null) return;
 
         if (!refinedPartsMenuActive)
         {
@@ -116,6 +106,11 @@ public class UIController : MonoBehaviour
                 modelButton.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void SetRefinedPartsToggleActive(bool active)
+    {
+        refinedPartsMenuToggle.gameObject.SetActive(active);
     }
 
     public void ToggleIcons(GameObject toggle, bool active)

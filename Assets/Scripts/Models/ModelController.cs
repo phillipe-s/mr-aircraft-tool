@@ -39,6 +39,9 @@ public class ModelController : NetworkBehaviour
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
         uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
 
+        if (currentModel.RefinedParts.Count == 0) uiController.SetRefinedPartsToggleActive(false);
+        else uiController.SetRefinedPartsToggleActive(true);
+
         Debug.Log($"Switched to model: {currentModel.ModelName}");
 
     }
