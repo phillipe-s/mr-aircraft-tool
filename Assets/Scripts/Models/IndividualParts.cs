@@ -109,8 +109,8 @@ public class IndividualParts : NetworkBehaviour
     {
         if ((value > 0) && !isExploded)
         {
-            isExploded = true;
             SavePartPositionsBeforeExplode();
+            isExploded = true;
         }
         else if (value == 0)
         {
@@ -138,20 +138,9 @@ public class IndividualParts : NetworkBehaviour
 
         foreach (Transform part in nestedParts)
         {
-            AddRayGrabInteraction(part);
             AddGrabInteractions(part);
-            // AddNetworkComponents(part);
+            AddRayGrabInteraction(part);
         }
-    }
-
-    private void AddRayGrabInteraction(Transform child)
-    {
-        GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
-        rayGrabInteractionsDict[child] = rayGrabInteraction;
-
-        rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
-        rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
-        rayGrabInteraction.GetComponent<RayInteractable>().enabled = false;
     }
 
     private void AddGrabInteractions(Transform child)
@@ -166,6 +155,17 @@ public class IndividualParts : NetworkBehaviour
         grabInteractions.GetComponent<HandGrabInteractable>().InjectRigidbody(null);
         grabInteractions.GetComponent<GrabInteractable>().InjectRigidbody(null);
         grabInteractions.GetComponent<MaterialPropertyBlockEditor>().Renderers = new List<Renderer> { child.gameObject.GetComponent<Renderer>() };
+    }
+
+    private void AddRayGrabInteraction(Transform child)
+    {
+        GameObject rayGrabInteraction = Instantiate(rayGrabInteractionPrefab, child);
+        rayGrabInteractionsDict[child] = rayGrabInteraction;
+
+        rayGrabInteraction.GetComponent<Grabbable>().InjectOptionalTargetTransform(child);
+        rayGrabInteraction.GetComponent<ColliderSurface>().InjectAllColliderSurface(child.gameObject.GetComponent<Collider>());
+        rayGrabInteraction.GetComponent<RayInteractable>().enabled = false;
+        rayGrabInteraction.GetComponent<InteractableColorVisual>().InjectMaterialPropertyBlockEditor(grabInteractionsDict[child].GetComponent<MaterialPropertyBlockEditor>());
     }
 
     private void ToggleRayInteraction(Transform part, bool state)
