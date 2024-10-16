@@ -60,8 +60,8 @@ public class IndividualParts : NetworkBehaviour
             if (!isExploded) RestorePartTransforms();
             foreach (Transform child in nestedParts)
             {
-                if (!rayGrabInteractionsEnabled) ToggleGrabInteraction(child, false);
-                ToggleRayInteraction(child, false);
+                if (!rayGrabInteractionsEnabled) ToggleRayInteraction(child, false);
+                ToggleGrabInteraction(child, false);
             }
             parentModelGrabInteractions.GetComponent<GrabInteractable>().enabled = false;
         }
