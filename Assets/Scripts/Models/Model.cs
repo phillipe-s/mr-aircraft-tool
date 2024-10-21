@@ -1,19 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using Fusion;
+using Oculus.Interaction;
 using UnityEngine;
 
 #nullable enable
 
-public class Model : MonoBehaviour
+public class Model : NetworkBehaviour
 {
-    [SerializeField] private string modelName;
+    [SerializeField, Optional] private string modelName;
     public string ModelName { get => modelName; }
     [SerializeField] private IndividualParts modelParts;
     public IndividualParts ModelParts { get => modelParts; }
     private List<Model>? refinedParts = new List<Model>();
     public List<Model>? RefinedParts { get => refinedParts; }
-    [SerializeField] private Model parentModel;
+    [SerializeField, Optional] private Model parentModel;
     public Model ParentModel { get => parentModel; }
 
     void Awake()

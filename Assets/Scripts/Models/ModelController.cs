@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModelController : MonoBehaviour
+public class ModelController : NetworkBehaviour
 {
     public List<Model> models;
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
     [SerializeField] UIController uiController;
-
-
 
     void Awake()
     {
@@ -21,10 +20,13 @@ public class ModelController : MonoBehaviour
             model.gameObject.SetActive(false);
         }
         currentModel = models[0];
-        currentModel.gameObject.SetActive(true);
     }
 
-    public void SwitchToModel(Model model)
+
+    public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
 
@@ -35,14 +37,32 @@ public class ModelController : MonoBehaviour
         currentModel.gameObject.SetActive(true);
 
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        if (currentModel.RefinedParts.Count == 0) uiController.SetRefinedPartsToggleActive(false);
+        else uiController.SetRefinedPartsToggleActive(true);
+
+        Debug.Log($"Switched to model: {currentModel.ModelName}");
 
     }
+
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
     public void ToggleIndividualPartsCurrentModel()
     {
         currentModel.ModelParts.ToggleIndividualParts();
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
+        Debug.Log($"Individual Parts Enabled: {currentModel.ModelParts.IndividualPartsEnabled}");
+    }
+
+    [ContextMenu("Toggle Ray Interactor For Current Model")]
+    public void ToggleRayInteractor()
+    {
+        currentModel.ModelParts.ToggleRayGrabInteractions();
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        Debug.Log($"Ray Interactor Enabled: {currentModel.ModelParts.RayGrabInteractionsEnabled}");
     }
 
 
@@ -50,6 +70,7 @@ public class ModelController : MonoBehaviour
     public void ResetModel()
     {
         currentModel.ModelParts.RestorePartTransforms();
+        Debug.Log($"Reset model: {currentModel.ModelName}");
     }
 
     public void OnExplosionSliderChange(float value)
@@ -57,10 +78,12 @@ public class ModelController : MonoBehaviour
         currentModel.ModelParts.Explode(value);
     }
 
+
     public void ToggleRefinedPart(Model refinedPart, bool active)
     {
         if (active) SwitchToModel(refinedPart);
         else SwitchToModel(refinedPart.ParentModel);
+        Debug.Log($"Toggled refined part: {refinedPart.ModelName}");
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
@@ -71,5 +94,6 @@ public class ModelController : MonoBehaviour
         currentModel.gameObject.SetActive(false);
         currentModel = models[1];
         currentModel.gameObject.SetActive(true);
+        Debug.Log($"Switched to model at index 1: {currentModel.ModelName}");
     }
 }
