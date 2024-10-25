@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using Fusion;
-using Oculus.Interaction.Input;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
-using UnityEngine.UI;
 
+/// <summary>
+/// Manages the models in the application, including switching between models and toggling their parts.
+/// </summary>
 public class ModelController : NetworkBehaviour
 {
     public List<Model> models;
@@ -16,15 +15,17 @@ public class ModelController : NetworkBehaviour
     void Awake()
     {
         foreach (Model model in models)
-        {
             model.gameObject.SetActive(false);
-        }
+
         currentModel = models[0];
     }
 
-
     public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
 
+    /// <summary>
+    /// RPC method to switch to the specified model.
+    /// </summary>
+    /// <param name="model">The model to switch to.</param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_SwitchToModel(Model model)
     {
@@ -39,14 +40,16 @@ public class ModelController : NetworkBehaviour
         uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
         uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
 
+        // If the current model has no refined parts, disable the refined parts toggle
         if (currentModel.RefinedParts.Count == 0) uiController.SetRefinedPartsToggleActive(false);
         else uiController.SetRefinedPartsToggleActive(true);
 
         Debug.Log($"Switched to model: {currentModel.ModelName}");
-
     }
 
-
+    /// <summary>
+    /// Toggles the individual parts for the current model.
+    /// </summary>
     [ContextMenu("Toggle Individual Parts For Current Model")]
     public void ToggleIndividualPartsCurrentModel()
     {
@@ -56,6 +59,9 @@ public class ModelController : NetworkBehaviour
         Debug.Log($"Individual Parts Enabled: {currentModel.ModelParts.IndividualPartsEnabled}");
     }
 
+    /// <summary>
+    /// Toggles the ray interactor for the current model.
+    /// </summary>
     [ContextMenu("Toggle Ray Interactor For Current Model")]
     public void ToggleRayInteractor()
     {
@@ -65,7 +71,9 @@ public class ModelController : NetworkBehaviour
         Debug.Log($"Ray Interactor Enabled: {currentModel.ModelParts.RayGrabInteractionsEnabled}");
     }
 
-
+    /// <summary>
+    /// Resets the current model to its original state.
+    /// </summary
     [ContextMenu("Reset Current Model")]
     public void ResetModel()
     {
@@ -73,27 +81,24 @@ public class ModelController : NetworkBehaviour
         Debug.Log($"Reset model: {currentModel.ModelName}");
     }
 
+    /// <summary>
+    /// Handles changes to the explosion slider value.
+    /// </summary>
+    /// <param name="value">The new value of the explosion slider.</param>
     public void OnExplosionSliderChange(float value)
     {
         currentModel.ModelParts.Explode(value);
     }
 
-
+    /// <summary>
+    /// Toggles the visibility of a refined part.
+    /// </summary>
+    /// <param name="refinedPart">The refined part to toggle.</param>
+    /// <param name="active">Whether the refined part should be active.</param>
     public void ToggleRefinedPart(Model refinedPart, bool active)
     {
         if (active) SwitchToModel(refinedPart);
         else SwitchToModel(refinedPart.ParentModel);
         Debug.Log($"Toggled refined part: {refinedPart.ModelName}");
-    }
-
-    // ======================== TESTING FUNCTIONS ======================== //
-
-    [ContextMenu("[TESTING ONLY] Switch to Model at index 1")]
-    private void SwitchToModel()
-    {
-        currentModel.gameObject.SetActive(false);
-        currentModel = models[1];
-        currentModel.gameObject.SetActive(true);
-        Debug.Log($"Switched to model at index 1: {currentModel.ModelName}");
     }
 }
