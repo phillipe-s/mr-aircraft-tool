@@ -5,17 +5,15 @@
 ### Release Channel (recommended)
 
 - This application has been deployed onto a private release channel on the [Meta Store](https://www.meta.com/en-gb/experiences/).
-  - If deployed publicly, then searching the application in the store would be a way to install it. 
+  - If deployed publicly, then searching the application in the store would be a way to install it.
 - To get this application onto a Meta headset the same way as you would with other apps, you must be added to the private release channel.
-  - To be added, contact the owners of the application. 
+  - To be added, contact the owners of the application.
   - Once added, the application will automatically appear in your applications ready for install.
   - Deployment means developers can push updates, and users will see these available.
-  - This is the recommended way as in order for **Spatial Data** to be shared across headsets, Meta currently requires the application to be on
-    a release channel (private or public), and only the added users are allowed to share Spatial Data (if public then anyone with the app can).
-      - If your Meta account associated with the headset is not allow-listed onto the release channel, then Spatial Data will not be able to be shared,
-        thus objects will not be in the same positions for users in the same room.
-      - You can read more about sharing Spatial Data and Anchors [here](https://developers.meta.com/horizon/documentation/unity/unity-shared-spatial-anchors/)
-      - You can read more about deploying your application to a release channel [here](https://developers.meta.com/horizon/resources/publish-submit)
+  - This is the recommended way as in order for **Spatial Data** to be shared across headsets, Meta currently requires the application to be on a release channel (private or public), and only the added users are allowed to share Spatial Data (if public then anyone with the app can).
+    - If your Meta account associated with the headset is not allow-listed onto the release channel, then Spatial Data will not be able to be shared, thus objects will not be in the same positions for users in the same room.
+    - You can read more about sharing Spatial Data and Anchors [here](https://developers.meta.com/horizon/documentation/unity/unity-shared-spatial-anchors/)
+    - You can read more about deploying your application to a release channel [here](https://developers.meta.com/horizon/resources/publish-submit)
 
 ### Android Application Package (.apk)
 
