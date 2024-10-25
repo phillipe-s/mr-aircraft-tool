@@ -1,6 +1,6 @@
 # Mixed-Reality Aircraft Operational Briefing Tool
 
-![Banner](./Documentation/Media/banner.jpg)
+![Banner](./Documentation/Media/banner.png)
 
 ## About The Project
 
