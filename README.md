@@ -47,8 +47,9 @@ in the same space or the anchor sharing fails, baring that a connection to the s
 
 ### Installation
 
-- To install and test this project in **Unity**, follow the [***Development Guide***](./Documentation/Development%20Guide.md)
 - To install this project directly on a **Meta Quest 3**, follow the [***User Guide***](./Documentation/User%20Guide.md)
+- To install and test this project in **Unity**, follow the [***Development Guide***](./Documentation/Development%20Guide.md)
+
 
 ## Demonstration
 
