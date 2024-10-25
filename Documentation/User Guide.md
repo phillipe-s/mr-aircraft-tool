@@ -11,7 +11,7 @@
   - Once added, the application will automatically appear in your applications ready for install.
   - Deployment means developers can push updates, and users will see these available.
   - This is the recommended way as in order for **Spatial Data** to be shared across headsets, Meta currently requires the application to be on
-    a release channel (private or public), and only the added users are alllowed to share Spatial Data (if public then anyone with the app can).
+    a release channel (private or public), and only the added users are allowed to share Spatial Data (if public then anyone with the app can).
       - If your Meta account associated with the headset is not allow-listed onto the release channel, then Spatial Data will not be able to be shared,
         thus objects will not be in the same positions for users in the same room.
       - You can read more about sharing Spatial Data and Anchors [here](https://developers.meta.com/horizon/documentation/unity/unity-shared-spatial-anchors/)
