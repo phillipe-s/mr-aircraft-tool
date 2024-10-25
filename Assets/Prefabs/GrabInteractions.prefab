@@ -13,13 +13,15 @@ GameObject:
   - component: {fileID: 2305833205715960071}
   - component: {fileID: 6278092146975692667}
   - component: {fileID: -5407690826318970436}
+  - component: {fileID: -9145168234039734839}
+  - component: {fileID: -1705996118872128733}
   m_Layer: 0
   m_Name: GrabInteractions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1941053820173315105
 Transform:
   m_ObjectHideFlags: 0
@@ -172,14 +174,154 @@ MonoBehaviour:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 5
+        Max: 10
     YAxis:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 5
+        Max: 10
     ZAxis:
       ConstrainAxis: 1
       AxisRange:
         Min: 0.05
-        Max: 5
+        Max: 10
+--- !u!114 &-9145168234039734839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447174186724491619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3266c3d920715b84089935c4ab019210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactableView: {fileID: 2305833205715960071}
+  _editor: {fileID: -1705996118872128733}
+  _colorShaderPropertyName: _Color
+  _normalColorState:
+    Color: {r: 1, g: 1, b: 1, a: 0}
+    ColorCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ColorTime: 0.2
+  _hoverColorState:
+    Color: {r: 0.5235849, g: 1, b: 0.5547547, a: 0}
+    ColorCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ColorTime: 0.2
+  _selectColorState:
+    Color: {r: 0.3160377, g: 1, b: 0.3612583, a: 0}
+    ColorCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ColorTime: 0.2
+  _disabledColorState:
+    Color: {r: 1, g: 1, b: 1, a: 0}
+    ColorCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ColorTime: 0.2
+--- !u!114 &-1705996118872128733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447174186724491619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderers: []
+  _vectorProperties: []
+  _colorProperties: []
+  _floatProperties: []
+  _updateEveryFrame: 1

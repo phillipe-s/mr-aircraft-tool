@@ -1,28 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using Oculus.Interaction.Input;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModelController : MonoBehaviour
+public class ModelController : NetworkBehaviour
 {
     public List<Model> models;
     private Model currentModel;
     public Model CurrentModel { get => currentModel; }
-    [SerializeField] private GameObject centerEyeAnchor;
-    [SerializeField] private GameObject scrollMenuPrefab;
-    [SerializeField] private GameObject scrollMenuButtonPrefab;
-    [SerializeField] private GameObject modelMenu;
-    [SerializeField] private GameObject modelMenuToggle;
-    [SerializeField] private GameObject individualPartsToggle;
-    [SerializeField] private GameObject sliderPrefab;
-    private GameObject explosionSlider;
-    [SerializeField] private GameObject explosionSliderToggle;
-    private GameObject refinedPartsMenu;
-    public GameObject refinedPartsMenuToggle;
-    private List<Toggle> refinedPartToggles = new List<Toggle>();
-    private float menuDistanceInFrontOfCamera = 0.3f;
+    [SerializeField] UIController uiController;
 
     void Awake()
     {
@@ -31,95 +20,57 @@ public class ModelController : MonoBehaviour
             model.gameObject.SetActive(false);
         }
         currentModel = models[0];
-        currentModel.gameObject.SetActive(true);
-        modelMenu.SetActive(false);
-
-        explosionSlider = Instantiate(sliderPrefab);
-        explosionSlider.SetActive(false);
-        explosionSlider.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnExplosionSliderChange);
-
-        ToggleIcons(modelMenuToggle, false);
-        ToggleIcons(individualPartsToggle, false);
-        ToggleIcons(explosionSliderToggle, false);
-        ToggleIcons(refinedPartsMenuToggle, false);
     }
 
-    public void SwitchToModel(Model model)
+
+    public void SwitchToModel(Model model) { RPC_SwitchToModel(model); }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_SwitchToModel(Model model)
     {
         currentModel.gameObject.SetActive(false);
+
+        // Set the location of the new model to the location of the current model
+        model.transform.position = currentModel.transform.position;
+
         currentModel = model;
         currentModel.gameObject.SetActive(true);
-        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
+        uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        if (currentModel.RefinedParts.Count == 0) uiController.SetRefinedPartsToggleActive(false);
+        else uiController.SetRefinedPartsToggleActive(true);
+
+        Debug.Log($"Switched to model: {currentModel.ModelName}");
+
     }
+
 
     [ContextMenu("Toggle Individual Parts For Current Model")]
     public void ToggleIndividualPartsCurrentModel()
     {
         currentModel.ModelParts.ToggleIndividualParts();
-        ToggleIcons(individualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+        uiController.ToggleIcons(uiController.IndividualPartsToggle, currentModel.ModelParts.IndividualPartsEnabled);
+
+        Debug.Log($"Individual Parts Enabled: {currentModel.ModelParts.IndividualPartsEnabled}");
     }
 
-    public void ToggleModelMenu()
+    [ContextMenu("Toggle Ray Interactor For Current Model")]
+    public void ToggleRayInteractor()
     {
-        (modelMenu.transform.position, modelMenu.transform.rotation) = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
-        modelMenu.SetActive(!modelMenu.activeSelf);
-        ToggleIcons(modelMenuToggle, modelMenu.activeSelf);
+        currentModel.ModelParts.ToggleRayGrabInteractions();
+        uiController.ToggleIcons(uiController.RayInteractorToggle, currentModel.ModelParts.RayGrabInteractionsEnabled);
+
+        Debug.Log($"Ray Interactor Enabled: {currentModel.ModelParts.RayGrabInteractionsEnabled}");
     }
 
-    [ContextMenu("Toggle Refined Parts Menu For Current Model")]
-    public void ToggleRefinedPartsMenu()
-    {
-        if (currentModel.RefinedParts == null) return;
-
-        if (refinedPartsMenu == null)
-        {
-            refinedPartsMenu = Instantiate(scrollMenuPrefab);
-            (refinedPartsMenu.transform.position, refinedPartsMenu.transform.rotation) = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
-            refinedPartsMenu.SetActive(false);
-
-            // Populate the refined parts menu with buttons
-            foreach (Model refinedPart in currentModel.RefinedParts)
-            {
-                Transform content = refinedPartsMenu.transform.Find("Unity Canvas/LeftSide/Scroll View/Viewport/Content");
-                content.GetComponent<ToggleGroup>().allowSwitchOff = true;
-
-                GameObject button = Instantiate(scrollMenuButtonPrefab, content);
-                button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = refinedPart.modelName;
-                Toggle toggle = button.GetComponent<Toggle>();
-                toggle.group = content.GetComponent<ToggleGroup>();
-                toggle.onValueChanged.AddListener((value) =>
-                {
-                    ToggleRefinedPart(refinedPart, value);
-                });
-                refinedPartToggles.Add(toggle);
-            }
-            refinedPartsMenu.SetActive(true);
-            ToggleIcons(refinedPartsMenuToggle, true);
-        }
-        else
-        {
-            foreach (Toggle toggle in refinedPartToggles)
-            {
-                toggle.onValueChanged.RemoveAllListeners();
-            }
-            refinedPartToggles.Clear();
-
-            Destroy(refinedPartsMenu);
-            refinedPartsMenu = null;
-            ToggleIcons(refinedPartsMenuToggle, false);
-        }
-    }
-
-    public void ToggleExplosionSlider()
-    {
-        (explosionSlider.transform.position, explosionSlider.transform.rotation) = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
-        explosionSlider.SetActive(!explosionSlider.activeSelf);
-    }
 
     [ContextMenu("Reset Current Model")]
     public void ResetModel()
     {
         currentModel.ModelParts.RestorePartTransforms();
+        Debug.Log($"Reset model: {currentModel.ModelName}");
     }
 
     public void OnExplosionSliderChange(float value)
@@ -127,26 +78,12 @@ public class ModelController : MonoBehaviour
         currentModel.ModelParts.Explode(value);
     }
 
-    private void ToggleIcons(GameObject toggle, bool active)
-    {
-        toggle.transform.Find("IconOn").gameObject.SetActive(active);
-        toggle.transform.Find("IconOff").gameObject.SetActive(!active);
-    }
 
-    private (Vector3, Quaternion) GetPositionInFrontOfCamera(float distanceInFront)
+    public void ToggleRefinedPart(Model refinedPart, bool active)
     {
-        // Set the position of the modelMenu in front of the user's camera
-        Vector3 cameraForward = centerEyeAnchor.transform.forward;
-        Vector3 cameraPosition = centerEyeAnchor.transform.position;
-        Quaternion cameraRotation = centerEyeAnchor.transform.rotation;
-        return (cameraPosition + cameraForward * distanceInFront, cameraRotation);
-    }
-
-    private void ToggleRefinedPart(Model refinedPart, bool active)
-    {
-        Debug.Log($"Toggling {refinedPart.modelName} to {active}");
-        refinedPart.gameObject.SetActive(active);
-        (refinedPart.transform.position, refinedPart.transform.rotation) = GetPositionInFrontOfCamera(menuDistanceInFrontOfCamera);
+        if (active) SwitchToModel(refinedPart);
+        else SwitchToModel(refinedPart.ParentModel);
+        Debug.Log($"Toggled refined part: {refinedPart.ModelName}");
     }
 
     // ======================== TESTING FUNCTIONS ======================== //
@@ -157,5 +94,6 @@ public class ModelController : MonoBehaviour
         currentModel.gameObject.SetActive(false);
         currentModel = models[1];
         currentModel.gameObject.SetActive(true);
+        Debug.Log($"Switched to model at index 1: {currentModel.ModelName}");
     }
 }
