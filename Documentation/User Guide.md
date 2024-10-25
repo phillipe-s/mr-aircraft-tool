@@ -15,7 +15,7 @@
       - If your Meta account associated with the headset is not allow-listed onto the release channel, then Spatial Data will not be able to be shared,
         thus objects will not be in the same positions for users in the same room.
       - You can read more about sharing Spatial Data and Anchors [here](https://developers.meta.com/horizon/documentation/unity/unity-shared-spatial-anchors/)
-      - You can read more about deployed your application to a release channel [here](https://developers.meta.com/horizon/resources/publish-submit)
+      - You can read more about deploying your application to a release channel [here](https://developers.meta.com/horizon/resources/publish-submit)
 
 ### Android Application Package (.apk)
 
